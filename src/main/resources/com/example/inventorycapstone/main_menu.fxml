@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.inventorycapstone.controller.MainController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="600.0">
+         <children>
+            <Label text="Logged In as: ">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="username" text="USERNAME">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="liveClock" text="LIVE DATE TIME">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" text="Log Out">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <TabPane prefHeight="590.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Overview">
+            <content>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.7999633789062" minWidth="10.0" prefWidth="237.60003662109375" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.1999633789062" minWidth="10.0" prefWidth="463.1999633789062" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="12.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="105.20001220703125" minHeight="10.0" percentHeight="15.0" prefHeight="102.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="137.19998168945315" minHeight="10.0" percentHeight="29.0" prefHeight="118.00000000000003" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="22.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="22.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Inventory Overview">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="Class Overview" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                           <children>
+                              <Label fx:id="lowStockAlert" text="Low Stock Text">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Button fx:id="lowStockReport" mnemonicParsing="false" text="Save Low Stock Report">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3" GridPane.rowSpan="2">
+                           <children>
+                              <Label fx:id="overStockAlert" text="Over Stock Text">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Button fx:id="overStockReport" mnemonicParsing="false" text="Save Over Stock Report">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Events: ">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="upcommingClassesAlert" prefHeight="138.0" prefWidth="370.0" text="Label" wrapText="true" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Accordion fx:id="classStockReport" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="3" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+            </content>
+          </Tab>
+          <Tab text="Miniature Inventory">
+            <content>
+                  <HBox>
+                     <children>
+                        <AnchorPane minWidth="300.0" prefHeight="509.0" prefWidth="325.0">
+                           <children>
+                              <VBox prefHeight="300.0" prefWidth="408.0" AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <Button fx:id="addMiniature" mnemonicParsing="false" text="Add New">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label text="Search: ">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="searchMiniature" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <TableView fx:id="miniatureTable" prefHeight="444.0" prefWidth="315.0" VBox.vgrow="ALWAYS">
+                                       <columns>
+                                          <TableColumn fx:id="miniTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="44.79998779296875" text="ID" />
+                                          <TableColumn fx:id="miniTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="133.59998321533203" text="Miniature Name" />
+                                          <TableColumn fx:id="miniTableBrand" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Brand" />
+                                          <TableColumn fx:id="miniSTableupplier" maxWidth="-Infinity" minWidth="75.0" prefWidth="80.79998779296875" text="Supplier" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </AnchorPane>
+                        <AnchorPane fx:id="setDetails1" prefHeight="509.0" prefWidth="368.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <GridPane layoutX="-1.0" prefHeight="510.0" prefWidth="366.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-5.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="9.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Miniature Details" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Miniature Name" GridPane.rowIndex="2" />
+                                    <Label text="Inventory ID" GridPane.rowIndex="3" />
+                                    <Label text="Retail Markup (%)" GridPane.rowIndex="7" />
+                                    <Label text="Wholesale Price" GridPane.rowIndex="6" />
+                                    <Label text="Brand" GridPane.rowIndex="4" />
+                                    <Label text="Supplier" GridPane.rowIndex="5" />
+                                    <Label text="Current Stock" GridPane.rowIndex="8" />
+                                    <Label text="Over Stock Amount" GridPane.rowIndex="10" />
+                                    <Label text="Low Stock Amount" GridPane.rowIndex="9" />
+                                    <Button fx:id="miniChangeButton" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
+                                    <Button fx:id="miniDiscardButton" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
+                                    <TextField fx:id="miniatureName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="miniatureInventoryId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="miniatureOverStock" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                    <TextField fx:id="miniatureLowStock" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <TextField fx:id="miniatureStock" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TextField fx:id="miniatureRetail" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <TextField fx:id="miniatureWholesale" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <TextField fx:id="miniatureSupplier" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="miniatureBrand" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+            </content>
+          </Tab>
+            <Tab text="Miniature Set Inventory">
+               <content>
+                  <HBox>
+                     <children>
+                        <AnchorPane minWidth="300.0">
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="setAddNew" mnemonicParsing="false" text="Add New">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label text="Search: ">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="setSearch" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <TableView fx:id="setTable" prefHeight="444.0" prefWidth="310.0" VBox.vgrow="ALWAYS">
+                                      <columns>
+                                        <TableColumn fx:id="setTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="50.39996337890625" text="ID" />
+                                        <TableColumn fx:id="setTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="108.00003814697266" text="Set Name" />
+                                          <TableColumn fx:id="setTableStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="48.79998779296875" text="Stock" />
+                                          <TableColumn fx:id="setTableSetType" maxWidth="-Infinity" minWidth="75.0" prefWidth="78.39998168945311" text="Set Type" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </AnchorPane>
+                        <AnchorPane fx:id="setDetails" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                           <children>
+                              <GridPane layoutX="37.0" layoutY="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="37.60000610351561" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Set Details" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Set Name" GridPane.rowIndex="2" />
+                                    <Label text="Inventory ID" GridPane.rowIndex="3" />
+                                    <Label text="Set Type" GridPane.rowIndex="4" />
+                                    <Label text="Retail Markup (%)" GridPane.rowIndex="8" />
+                                    <Label text="Wholesale Price" GridPane.rowIndex="7" />
+                                    <Label text="Brand" GridPane.rowIndex="5" />
+                                    <Label text="Supplier" GridPane.rowIndex="6" />
+                                    <Label text="Current Stock" GridPane.rowIndex="9" />
+                                    <Label text="Over Stock Amount" GridPane.rowIndex="11" />
+                                    <Label text="Low Stock Amount" GridPane.rowIndex="10" />
+                                    <Button fx:id="setChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
+                                    <Button fx:id="setDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
+                                    <TextField fx:id="setName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="setInventory" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="setOverStock" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <TextField fx:id="setLowStock" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                    <TextField fx:id="setStock" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <TextField fx:id="setRetail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TextField fx:id="setWholesale" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <TextField fx:id="setSupplier" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <TextField fx:id="setBrand" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <children>
+                                          <RadioButton fx:id="setOfficialRadio" mnemonicParsing="false" selected="true" text="Official">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="setType" />
+                                             </toggleGroup>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </RadioButton>
+                                          <RadioButton fx:id="setCustomRadio" mnemonicParsing="false" text="Custom" toggleGroup="$setType">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+            <Tab text="Miniature Painting Classess">
+               <content>
+                  <HBox prefHeight="505.0" prefWidth="700.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <Button fx:id="classAddNew" mnemonicParsing="false" text="Add New">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label text="Search: ">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="classSearch" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <TableView fx:id="classTable" prefHeight="444.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
+                                       <columns>
+                                          <TableColumn fx:id="classTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="34.39999294281006" text="ID" />
+                                          <TableColumn fx:id="classTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="114.39999771118164" text="Class Name" />
+                                          <TableColumn fx:id="classTableLocation" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Location" />
+                                          <TableColumn fx:id="classTableDate" maxWidth="79.19999694824219" minWidth="68.80000305175781" prefWidth="79.19999694824219" text="Date" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </AnchorPane>
+                        <AnchorPane fx:id="setDetails2" minWidth="-Infinity" prefHeight="507.0" prefWidth="352.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <GridPane layoutX="15.0" layoutY="20.0" prefHeight="498.0" prefWidth="337.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="15.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.39996337890625" minWidth="10.0" prefWidth="167.5999755859375" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.20000610351565" minWidth="10.0" prefWidth="170.00002441406252" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="37.60000610351561" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Class Details" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Class Name" GridPane.rowIndex="2" />
+                                    <Label text="Class ID" GridPane.rowIndex="3" />
+                                    <Label text="Retail Markup (%)" GridPane.rowIndex="12" />
+                                    <Label text="Wholesale Price" GridPane.rowIndex="11" />
+                                    <Label text="Location" GridPane.rowIndex="4" />
+                                    <Button fx:id="classChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+                                    <Button fx:id="classDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+                                    <TextField fx:id="className" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="classID" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="classRetail" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                                    <TextField fx:id="classWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                       <children>
+                                          <ComboBox fx:id="classLocation" prefHeight="26.0" prefWidth="207.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <Label text="Attendee Count" GridPane.rowIndex="8" />
+                                    <Label text="Date" GridPane.rowIndex="6" />
+                                    <Label text="Managing Employee" GridPane.rowIndex="5" />
+                                    <ComboBox fx:id="classEmployee" prefHeight="26.0" prefWidth="207.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <DatePicker fx:id="classDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Spinner fx:id="classAttendees" prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TableView fx:id="classMinis" prefHeight="82.0" prefWidth="305.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
+                                      <columns>
+                                        <TableColumn fx:id="classMiniId" prefWidth="41.599913597106934" text="ID" />
+                                        <TableColumn fx:id="classMiniName" prefWidth="119.20007705688477" text="Name" />
+                                          <TableColumn fx:id="classMiniPer" prefWidth="72.800048828125" text="Per Person" />
+                                          <TableColumn fx:id="classMiniTotal" prefWidth="86.40004577636716" text="Total Count" />
+                                      </columns>
+                                    </TableView>
+                                    <Label text="Included Miniatures" GridPane.rowIndex="9" />
+                                    <Label text="Time" GridPane.rowIndex="7" />
+                                    <TextField fx:id="classTime" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>
