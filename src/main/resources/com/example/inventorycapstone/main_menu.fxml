@@ -6,14 +6,14 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -154,7 +154,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT">
                                        <children>
-                                          <Button fx:id="addMiniature" mnemonicParsing="false" text="Add New">
+                                          <Button fx:id="miniAddNew" mnemonicParsing="false" text="Add New">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -234,8 +234,8 @@
                                     <Label text="Current Stock" GridPane.rowIndex="8" />
                                     <Label text="Over Stock Amount" GridPane.rowIndex="10" />
                                     <Label text="Low Stock Amount" GridPane.rowIndex="9" />
-                                    <Button fx:id="miniChangeButton" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
-                                    <Button fx:id="miniDiscardButton" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
+                                    <Button fx:id="miniChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
+                                    <Button fx:id="miniDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
                                     <TextField fx:id="miniatureName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <TextField fx:id="miniatureInventoryId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <TextField fx:id="miniatureOverStock" GridPane.columnIndex="1" GridPane.rowIndex="10" />
@@ -269,14 +269,15 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="setAddNew" mnemonicParsing="false" text="Add New">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
+                                          <MenuButton mnemonicParsing="false" text="Add New">
+                                            <items>
+                                              <MenuItem fx:id="officialSetAddNew" mnemonicParsing="false" text="Custom Set" />
+                                              <MenuItem fx:id="customSetAddNew" mnemonicParsing="false" text="Official Set" />
+                                            </items>
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </HBox.margin>
-                                          </Button>
+                                          </MenuButton>
                                           <Label text="Search: ">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -314,77 +315,6 @@
                            </HBox.margin>
                         </AnchorPane>
                         <AnchorPane fx:id="setDetails" minWidth="-Infinity" HBox.hgrow="ALWAYS">
-                           <children>
-                              <GridPane layoutX="37.0" layoutY="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="37.60000610351561" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label text="Set Details" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Set Name" GridPane.rowIndex="2" />
-                                    <Label text="Inventory ID" GridPane.rowIndex="3" />
-                                    <Label text="Set Type" GridPane.rowIndex="4" />
-                                    <Label text="Retail Markup (%)" GridPane.rowIndex="8" />
-                                    <Label text="Wholesale Price" GridPane.rowIndex="7" />
-                                    <Label text="Brand" GridPane.rowIndex="5" />
-                                    <Label text="Supplier" GridPane.rowIndex="6" />
-                                    <Label text="Current Stock" GridPane.rowIndex="9" />
-                                    <Label text="Over Stock Amount" GridPane.rowIndex="11" />
-                                    <Label text="Low Stock Amount" GridPane.rowIndex="10" />
-                                    <Button fx:id="setChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
-                                    <Button fx:id="setDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
-                                    <TextField fx:id="setName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="setInventory" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="setOverStock" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                                    <TextField fx:id="setLowStock" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                                    <TextField fx:id="setStock" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                    <TextField fx:id="setRetail" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                    <TextField fx:id="setWholesale" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                    <TextField fx:id="setSupplier" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                    <TextField fx:id="setBrand" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                       <children>
-                                          <RadioButton fx:id="setOfficialRadio" mnemonicParsing="false" selected="true" text="Official">
-                                             <toggleGroup>
-                                                <ToggleGroup fx:id="setType" />
-                                             </toggleGroup>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </RadioButton>
-                                          <RadioButton fx:id="setCustomRadio" mnemonicParsing="false" text="Custom" toggleGroup="$setType">
-                                             <HBox.margin>
-                                                <Insets left="5.0" />
-                                             </HBox.margin>
-                                             <padding>
-                                                <Insets left="5.0" />
-                                             </padding>
-                                          </RadioButton>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </GridPane>
-                           </children>
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
