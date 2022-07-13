@@ -1,35 +1,89 @@
 package com.example.inventorycapstone.controller;
 
+import com.example.inventorycapstone.doa.model.UserDAO;
+import com.example.inventorycapstone.util.HashController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static com.example.inventorycapstone.util.HashController.fromHex;
+import static com.example.inventorycapstone.util.HashController.toHex;
 
 public class LoginController {
 
-    //TODO takes username and hashed password input and compares w/ database
-    //TODO if correct user/pass combo take user to main page
-    //TODO if incorrect show alert
+    public Label timeLabel;
+    public Timeline clock;
+
+    public TextField usernameInput;
+    public TextField passwordInput;
 
     public LoginController() {
     }
 
     public void initialize() {
+        displayClock();
+    }
+
+    private void displayClock() {
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e ->
+                timeLabel.setText(ZonedDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/YYYY hh:mm a ZZZZ")))),
+                new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
     @FXML
     public void login(ActionEvent event){
         try{
-            toMain(event);
+            if(isValidLogin()) {
+                toMain(event);
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
 
+    }
+
+    private boolean isValidLogin(){
+        Alert invalidUsernameAlert = new Alert(Alert.AlertType.ERROR,"The entered username is incorrect.");
+        Alert invalidPasswordAlert = new Alert(Alert.AlertType.ERROR,"The entered password is incorrect.");
+
+        String[] userData = UserDAO.get(usernameInput.getText());
+        if (userData != null){
+            try {
+                byte[] hashedPassword = HashController.encodePassword(passwordInput.getText(), fromHex(userData[2]));
+                if(userData[1].equals(toHex(hashedPassword))){
+                    return true;
+                } else {
+                    invalidPasswordAlert.show();
+                    return false;
+                }
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            invalidUsernameAlert.show();
+            return false;
+        }
+        return false;
     }
 
     private void toMain(ActionEvent event) throws IOException {
@@ -39,4 +93,5 @@ public class LoginController {
         stage.setScene(scene);
         stage.show();
     }
+
 }

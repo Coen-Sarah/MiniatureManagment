@@ -37,7 +37,7 @@ public class UserDAO {
 
     public static String[] get(String userName){
         String getUserInfoQuery = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + NAME + " = " + userName;
+                " WHERE " + NAME + " = \"" + userName + "\";";
         try {
             makeQuery(getUserInfoQuery);
             ResultSet userResults = getResult();
