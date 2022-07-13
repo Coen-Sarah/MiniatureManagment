@@ -10,6 +10,8 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,6 +21,10 @@ public class MainController {
 
     public Accordion classStockReport;
     public ArrayList<TitledPane> reportItems = new ArrayList<TitledPane>();
+
+    public AnchorPane miniDetails;
+    public AnchorPane setDetails;
+    public AnchorPane classDetails;
 
     public Button miniAddNew;
     public MenuItem officialSetAddNew;
@@ -40,11 +46,14 @@ public class MainController {
 
     public void initialize(){
         addClassReportContent();
+        addMiniDetailsContent();
+        addClassDetailsContent();
+        addSetDetailsContent();
         //initializeButtons();
     }
 
     private void initializeButtons() {
-        
+        //TODO REWORK W/ NEW FXML SETUP
         miniAddNew.setOnAction(event ->{
             if(miniChange.getText().equals(changeText[0])){
                 //TODO set blank details form editable
@@ -161,26 +170,53 @@ public class MainController {
             classStockReport.getPanes().addAll(reportItems);
 
         } catch (IOException e){
+            System.out.println("FXML LOAD ERROR: OVERVIEW CLASS STOCK REPORT FAILED TO LOAD");
             e.printStackTrace();
         }
     }
 
     private void addMiniDetailsContent(){
-        //TODO CREATE MINI EXTERNAL FXML
-        //TODO ADD CONTENT TO MINI DETAILS PANE
+
+        try {
+            GridPane miniDetailPane = FXMLLoader.load(this.getClass().getResource("/com/example/inventorycapstone/miniDetails.fxml"));
+            miniDetails.getChildren().add(miniDetailPane);
+
+        } catch (IOException e){
+            System.out.println("FXML LOAD ERROR: MINIATURE DETAILS FAILED TO LOAD");
+            e.printStackTrace();
+        }
+
     }
 
     private void addSetDetailsContent(){
-        //TODO CREATE OFFICIAL SET EXTERNAL FXML
-        //TODO CREATE CUSTOM SET EXTERNAL FXML
-        //TODO ADD CONTENT TO SET DETAILS PANE
+        //TODO IMPLEMENT THE OFFICIAL VS CUSTOM LOGIC
+        String officialSetPath = "/com/example/inventorycapstone/officialSetDetails.fxml";
+        String customSetPath = "/com/example/inventorycapstone/customSetDetails.fxml";
+        try {
+            GridPane miniDetailPane = FXMLLoader.load(this.getClass().getResource(customSetPath));
+            setDetails.getChildren().add(miniDetailPane);
+
+        } catch (IOException e){
+            System.out.println("FXML LOAD ERROR: SET DETAILS FAILED TO LOAD");
+            e.printStackTrace();
+        }
+
     }
 
     private void addClassDetailsContent(){
-        //TODO CREATE CLASS VIEW EXTERNAL FXML
-        //TODO CREATE CLASS EDIT EXTERNAL FXML
-        //TODO ADD CONTENT TO CLASS DETAILS PANE
+        //TODO IMPLEMENT VIEW VS EDIT LOGIC
+
+        try {
+            GridPane miniDetailPane = FXMLLoader.load(this.getClass().getResource("/com/example/inventorycapstone/classDetailsView.fxml"));
+            classDetails.getChildren().add(miniDetailPane);
+
+        } catch (IOException e){
+            System.out.println("FXML LOAD ERROR: CLASS DETAILS FAILED TO LOAD");
+            e.printStackTrace();
+        }
+
     }
+
     public void logout(ActionEvent event){
         try{
             toLogin(event);

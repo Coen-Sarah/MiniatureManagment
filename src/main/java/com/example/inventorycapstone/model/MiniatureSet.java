@@ -29,6 +29,25 @@ public abstract class MiniatureSet {
         this.overStockAmount = overStockAmount;
     }
 
+    public MiniatureSet(String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+        this.name = name;
+        this.wholeSalePrice = wholeSalePrice;
+        this.retailMarkup = retailMarkup;
+        this.currentStock = currentStock;
+        this.lowStockAmount = lowStockAmount;
+        this.overStockAmount = overStockAmount;
+    }
+
+    public MiniatureSet(int id, String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+        this.id = id;
+        this.name = name;
+        this.wholeSalePrice = wholeSalePrice;
+        this.retailMarkup = retailMarkup;
+        this.currentStock = currentStock;
+        this.lowStockAmount = lowStockAmount;
+        this.overStockAmount = overStockAmount;
+    }
+
     public int getId() {
         return id;
     }

@@ -2,29 +2,22 @@ package com.example.inventorycapstone.model;
 
 public class OfficialSet extends MiniatureSet{
 
+    final String ID_SUFFIX = "SO";
     String brand;
     String supplier;
 
     public OfficialSet() {}
 
-    public OfficialSet(String setName,
-                       String brand, String supplier,
-                       float wholeSalePrice,  float retailMarkup,
-                       int currentStock, int lowStockAmount, int overStockAmount) {
-        super(setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
+    public OfficialSet(String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount, String brand, String supplier) {
+        super(name, wholeSalePrice, retailMarkup, currentStock, lowStockAmount, overStockAmount);
         this.brand = brand;
         this.supplier = supplier;
-        this.wholeSalePrice = wholeSalePrice;
     }
 
-    public OfficialSet(int setId, String setName,
-                       String brand, String supplier,
-                       float wholeSalePrice,  float retailMarkup,
-                       int currentStock, int lowStockAmount, int overStockAmount) {
-        super(setId, setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
+    public OfficialSet(int id, String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount, String brand, String supplier) {
+        super(id, name, wholeSalePrice, retailMarkup, currentStock, lowStockAmount, overStockAmount);
         this.brand = brand;
         this.supplier = supplier;
-        super.wholeSalePrice = wholeSalePrice;
     }
 
     public String getBrand() {

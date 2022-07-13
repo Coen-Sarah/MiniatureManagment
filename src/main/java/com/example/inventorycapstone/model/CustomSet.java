@@ -4,6 +4,7 @@ import javafx.collections.ObservableMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomSet extends MiniatureSet{
+    final String ID_SUFFIX = "SC";
     ObservableMap<Miniature, Integer> neededMiniatures;
 
     public CustomSet() {}

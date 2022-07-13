@@ -2,6 +2,7 @@ package com.example.inventorycapstone.model;
 
 public class Miniature {
 
+    final String ID_SUFFIX = "M";
     int id;
     String name;
     String brand;

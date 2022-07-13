@@ -2,24 +2,24 @@ package com.example.inventorycapstone.model.businessInfo;
 
 public class Employee {
 
-    int employeeId;
+    int id;
     int locationId;
-    String employeeName;
+    String name;
 
     public Employee(){}
 
-    public Employee(int employeeId, int locationId, String employeeName) {
-        this.employeeId = employeeId;
+    public Employee(int id, int locationId, String name) {
+        this.id = id;
         this.locationId = locationId;
-        this.employeeName = employeeName;
+        this.name = name;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public int getId() {
+        return id;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getLocationId() {
@@ -30,11 +30,11 @@ public class Employee {
         this.locationId = locationId;
     }
 
-    public String getEmployeeName() {
-        return employeeName;
+    public String getName() {
+        return name;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

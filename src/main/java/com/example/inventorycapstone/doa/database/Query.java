@@ -1,9 +1,9 @@
-package com.example.inventorycapstone.doa;
+package com.example.inventorycapstone.doa.database;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import static com.example.inventorycapstone.doa.DBConnection.getConnection;
+import static com.example.inventorycapstone.doa.database.DBConnection.getConnection;
 
 public class Query {
 
