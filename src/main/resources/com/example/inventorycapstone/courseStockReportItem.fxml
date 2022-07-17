@@ -5,7 +5,12 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane fx:id="classReportItem" animated="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="450.0" text="ID: _CLASS ID_ | _CLASS NAME_ | Attendees: _ATTENDEE COUNT_ | _STOCK FLAG_" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane fx:id="classReportItem" animated="false"
+            maxWidth="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="450.0"
+            text="ID: _CLASS ID_ | _CLASS NAME_ | Attendees: _ATTENDEE COUNT_ | _STOCK FLAG_"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.inventorycapstone.controller.course.CourseStockReportController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0">
          <children>

@@ -49,4 +49,8 @@ public class OfficialSet extends MiniatureSet{
     public void setWholeSalePrice(BigDecimal wholeSalePrice) {
         super.wholeSalePrice = wholeSalePrice;
     }
+
+    public String getSetType(){
+        return "Official";
+    }
 }

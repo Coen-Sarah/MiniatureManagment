@@ -1,4 +1,4 @@
-id,name,brand,supplier,wholeSalePrice,retailMarkup,currentStock,lowStockAmount,overStockAmount
+id,name,brand,supplier,wholesalePrice,retailMarkup,currentStock,lowStockAmount,overStockAmount
 1,Rouge In Rogue,Sword Witches Publishing,Indie Co.,14.99,0.3,5,2,10
 2,Wiley Weather Witch,Wizard's Cauldron Games,Randel LLC,5.99,0.5,15,10,20
 3,Shield Siblings Two Pack,Sword Witches Publishing,Indie Co.,21.99,0.3,3,1,6

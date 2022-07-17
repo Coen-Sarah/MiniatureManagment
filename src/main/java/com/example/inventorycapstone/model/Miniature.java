@@ -9,7 +9,7 @@ public class Miniature {
     String name;
     String brand;
     String supplier;
-    BigDecimal wholeSalePrice;
+    BigDecimal wholesalePrice;
     BigDecimal retailMarkup;
     int currentStock;
     int lowStockAmount;
@@ -19,12 +19,12 @@ public class Miniature {
 
     public Miniature(String name,
                      String brand, String supplier,
-                     BigDecimal wholeSalePrice, BigDecimal retailMarkup,
+                     BigDecimal wholesalePrice, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount) {
         this.name = name;
         this.brand = brand;
         this.supplier = supplier;
-        this.wholeSalePrice = wholeSalePrice;
+        this.wholesalePrice = wholesalePrice;
         this.retailMarkup = retailMarkup;
         this.currentStock = currentStock;
         this.lowStockAmount = lowStockAmount;
@@ -33,13 +33,13 @@ public class Miniature {
 
     public Miniature(int id, String name,
                      String brand, String supplier,
-                     BigDecimal wholeSalePrice, BigDecimal retailMarkup,
+                     BigDecimal wholesalePrice, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount) {
         this.id = id;
         this.name = name;
         this.brand = brand;
         this.supplier = supplier;
-        this.wholeSalePrice = wholeSalePrice;
+        this.wholesalePrice = wholesalePrice;
         this.retailMarkup = retailMarkup;
         this.currentStock = currentStock;
         this.lowStockAmount = lowStockAmount;
@@ -78,12 +78,12 @@ public class Miniature {
         this.supplier = supplier;
     }
 
-    public BigDecimal getWholeSalePrice() {
-        return wholeSalePrice;
+    public BigDecimal getWholesalePrice() {
+        return wholesalePrice;
     }
 
-    public void setWholeSalePrice(BigDecimal wholeSalePrice) {
-        this.wholeSalePrice = wholeSalePrice;
+    public void setWholesalePrice(BigDecimal wholesalePrice) {
+        this.wholesalePrice = wholesalePrice;
     }
 
     public BigDecimal getRetailMarkup() {

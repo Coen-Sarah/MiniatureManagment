@@ -39,7 +39,7 @@ public class MiniatureDAO {
                         "\""+ miniature.getName() +
                         "\", \""+ miniature.getBrand() +
                         "\", \""+ miniature.getSupplier() +
-                        "\", \""+ miniature.getWholeSalePrice() +
+                        "\", \""+ miniature.getWholesalePrice() +
                         "\", \""+ miniature.getRetailMarkup() +
                         "\", \""+ miniature.getLowStockAmount() +
                         "\", \""+ miniature.getOverStockAmount() +
@@ -129,7 +129,7 @@ public class MiniatureDAO {
                         NAME + " = \""+ miniature.getName()+ "\",\n" +
                         BRAND + " = \""+ miniature.getBrand()+ "\",\n" +
                         SUPPLIER + " = \""+ miniature.getSupplier()+ "\",\n" +
-                        WHOLESALE + " = "+ miniature.getWholeSalePrice()+ ",\n" +
+                        WHOLESALE + " = "+ miniature.getWholesalePrice()+ ",\n" +
                         RETAIL_MARKUP + " = "+ miniature.getRetailMarkup()+ ",\n" +
                         LOW_STOCK + " = "+ miniature.getLowStockAmount()+ ",\n" +
                         OVER_STOCK + " = "+ miniature.getOverStockAmount()+ ",\n" +

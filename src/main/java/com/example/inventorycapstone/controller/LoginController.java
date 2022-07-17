@@ -1,7 +1,6 @@
 package com.example.inventorycapstone.controller;
 
 import com.example.inventorycapstone.doa.model.UserDAO;
-import com.example.inventorycapstone.util.HashController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

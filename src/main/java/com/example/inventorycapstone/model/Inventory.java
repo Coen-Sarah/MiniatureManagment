@@ -1,5 +1,8 @@
 package com.example.inventorycapstone.model;
 
+import com.example.inventorycapstone.doa.model.CourseDAO;
+import com.example.inventorycapstone.doa.model.MiniatureDAO;
+import com.example.inventorycapstone.doa.model.SetDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,13 +15,13 @@ public class Inventory {
 
     public Inventory(){}
 
-    public Inventory(ObservableList<Miniature> allMiniatures,
-                     ObservableList<MiniatureSet> allSets,
-                     ObservableList<Course> allCourses){
-        this.allMiniatures = allMiniatures;
-        this.allSets = allSets;
-        this.allCourses = allCourses;
-
+    public static void setInventory() {
+        allMiniatures = MiniatureDAO.getAll();
+        allSets = SetDAO.getAll();
+        allCourses = CourseDAO.getAll();
+    }
+    public static void update(){
+        setInventory();
     }
 
     public static void addMiniature(Miniature newMiniature){
@@ -123,5 +126,5 @@ public class Inventory {
     public static ObservableList<Course> getAllCourses(){
         return allCourses;
     }
-    
+
 }

@@ -2,11 +2,8 @@ package com.example.inventorycapstone.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomSet extends MiniatureSet{
     final String ID_SUFFIX = "SC";
@@ -59,7 +56,7 @@ public class CustomSet extends MiniatureSet{
     public BigDecimal getWholesalePrice() {
         BigDecimal totalWholesalePrice = new BigDecimal(0.00);
         for (int i = 0; i < neededMiniatures.size(); i++) {
-            totalWholesalePrice = totalWholesalePrice.add((neededMiniatures.get(i).getWholeSalePrice()
+            totalWholesalePrice = totalWholesalePrice.add((neededMiniatures.get(i).getWholesalePrice()
                                                             .multiply(new BigDecimal(miniatureCount.get(i)))));
         }
         return totalWholesalePrice;
@@ -105,4 +102,7 @@ public class CustomSet extends MiniatureSet{
         }
     }
 
+    public String getSetType(){
+        return "Custom";
+    }
 }

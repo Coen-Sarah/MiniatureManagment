@@ -39,7 +39,7 @@ public class StartApplication extends Application {
         try{
 
             makeConnection();
-            //launch();
+            launch();
 
         }catch(Exception e){
             e.printStackTrace();

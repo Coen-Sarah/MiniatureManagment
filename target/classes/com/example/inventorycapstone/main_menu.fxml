@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -143,7 +144,7 @@
           </Tab>
           <Tab text="Miniature Inventory">
             <content>
-                  <HBox>
+                  <HBox fx:id="miniTab">
                      <children>
                         <AnchorPane minWidth="300.0" prefHeight="509.0" prefWidth="325.0">
                            <children>
@@ -151,7 +152,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT">
                                        <children>
-                                          <Button fx:id="miniAddNew" mnemonicParsing="false" text="Add New">
+                                          <Button fx:id="miniAddNew" mnemonicParsing="false" onAction="#showNewMini" text="Add New">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -167,7 +168,7 @@
                                                 <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="searchMiniature" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="miniatureSearch" HBox.hgrow="ALWAYS">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -179,10 +180,10 @@
                                     </HBox>
                                     <TableView fx:id="miniatureTable" prefHeight="444.0" prefWidth="315.0" VBox.vgrow="ALWAYS">
                                        <columns>
-                                          <TableColumn fx:id="miniTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="44.79998779296875" text="ID" />
-                                          <TableColumn fx:id="miniTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="133.59998321533203" text="Miniature Name" />
-                                          <TableColumn fx:id="miniTableBrand" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Brand" />
-                                          <TableColumn fx:id="miniSTableupplier" maxWidth="-Infinity" minWidth="75.0" prefWidth="80.79998779296875" text="Supplier" />
+                                          <TableColumn fx:id="miniId" maxWidth="-Infinity" minWidth="35.0" prefWidth="44.79998779296875" text="ID" />
+                                          <TableColumn fx:id="miniName" maxWidth="-Infinity" minWidth="125.0" prefWidth="133.59998321533203" text="Miniature Name" />
+                                          <TableColumn fx:id="miniBrand" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Brand" />
+                                          <TableColumn fx:id="miniStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="80.79998779296875" text="Stock" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -195,19 +196,16 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </AnchorPane>
-                        <AnchorPane fx:id="miniDetails" prefHeight="509.0" prefWidth="368.0" HBox.hgrow="ALWAYS">
+                        <ScrollPane fx:id="miniDetails" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
+                        </ScrollPane>
                      </children>
                   </HBox>
             </content>
           </Tab>
-            <Tab text="Miniature Set Inventory">
+            <Tab fx:id="setTab" text="Miniature Set Inventory">
                <content>
                   <HBox>
                      <children>
@@ -219,8 +217,8 @@
                                        <children>
                                           <MenuButton mnemonicParsing="false" text="Add New">
                                             <items>
-                                              <MenuItem fx:id="officialSetAddNew" mnemonicParsing="false" text="Custom Set" />
-                                              <MenuItem fx:id="customSetAddNew" mnemonicParsing="false" text="Official Set" />
+                                              <MenuItem fx:id="officialSetAddNew" mnemonicParsing="false" onAction="#showNewCustomSet" text="Custom Set" />
+                                              <MenuItem fx:id="customSetAddNew" mnemonicParsing="false" onAction="#showNewOfficialSet" text="Official Set" />
                                             </items>
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -246,10 +244,10 @@
                                     </HBox>
                                     <TableView fx:id="setTable" prefHeight="444.0" prefWidth="310.0" VBox.vgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn fx:id="setTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="50.39996337890625" text="ID" />
-                                        <TableColumn fx:id="setTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="108.00003814697266" text="Set Name" />
-                                          <TableColumn fx:id="setTableStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="48.79998779296875" text="Stock" />
-                                          <TableColumn fx:id="setTableSetType" maxWidth="-Infinity" minWidth="75.0" prefWidth="78.39998168945311" text="Set Type" />
+                                        <TableColumn fx:id="setId" maxWidth="-Infinity" minWidth="35.0" prefWidth="50.39996337890625" text="ID" />
+                                        <TableColumn fx:id="setName" maxWidth="-Infinity" minWidth="125.0" prefWidth="108.00003814697266" text="Set Name" />
+                                          <TableColumn fx:id="setType" maxWidth="-Infinity" minWidth="75.0" prefWidth="78.39998168945311" text="Set Type" />
+                                          <TableColumn fx:id="setStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="48.79998779296875" text="Stock" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -262,19 +260,16 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </AnchorPane>
-                        <AnchorPane fx:id="setDetails" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+                        <ScrollPane fx:id="setDetails" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
+                        </ScrollPane>
                      </children>
                   </HBox>
                </content>
             </Tab>
-            <Tab text="Miniature Painting Classess">
+            <Tab fx:id="courseTab" text="Miniature Painting Classess">
                <content>
                   <HBox prefHeight="505.0" prefWidth="700.0">
                      <children>
@@ -284,7 +279,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT">
                                        <children>
-                                          <Button fx:id="classAddNew" mnemonicParsing="false" text="Add New">
+                                          <Button fx:id="courseAddNew" mnemonicParsing="false" onAction="#showNewCourse" text="Add New">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -300,7 +295,7 @@
                                                 <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="classSearch" HBox.hgrow="ALWAYS">
+                                          <TextField fx:id="courseSearch" HBox.hgrow="ALWAYS">
                                              <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
@@ -310,12 +305,12 @@
                                           </TextField>
                                        </children>
                                     </HBox>
-                                    <TableView fx:id="classTable" prefHeight="444.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
+                                    <TableView fx:id="courseTable" prefHeight="444.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
                                        <columns>
-                                          <TableColumn fx:id="classTableId" maxWidth="-Infinity" minWidth="35.0" prefWidth="34.39999294281006" text="ID" />
-                                          <TableColumn fx:id="classTableName" maxWidth="-Infinity" minWidth="125.0" prefWidth="114.39999771118164" text="Class Name" />
-                                          <TableColumn fx:id="classTableLocation" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Location" />
-                                          <TableColumn fx:id="classTableDate" maxWidth="79.19999694824219" minWidth="68.80000305175781" prefWidth="79.19999694824219" text="Date" />
+                                          <TableColumn fx:id="courseId" maxWidth="-Infinity" minWidth="35.0" prefWidth="34.39999294281006" text="ID" />
+                                          <TableColumn fx:id="courseName" maxWidth="-Infinity" minWidth="125.0" prefWidth="114.39999771118164" text="Class Name" />
+                                          <TableColumn fx:id="courseLocation" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Location" />
+                                          <TableColumn fx:id="courseDate" maxWidth="79.19999694824219" minWidth="68.80000305175781" prefWidth="79.19999694824219" text="Date" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -328,14 +323,11 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
                         </AnchorPane>
-                        <AnchorPane fx:id="classDetails" minWidth="-Infinity" prefHeight="507.0" prefWidth="352.0" HBox.hgrow="ALWAYS">
+                        <ScrollPane fx:id="courseDetails" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </AnchorPane>
+                        </ScrollPane>
                      </children>
                   </HBox>
                </content>
