@@ -1,56 +1,108 @@
 package com.example.inventorycapstone.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CustomSet extends MiniatureSet{
     final String ID_SUFFIX = "SC";
-    ObservableMap<Miniature, Integer> neededMiniatures;
+    ObservableList<Miniature> neededMiniatures = FXCollections.observableArrayList();
+    ObservableList<Integer> miniatureCount = FXCollections.observableArrayList();
 
     public CustomSet() {}
 
-    public CustomSet(String setName, float retailMarkup,
+    public CustomSet(String setName, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount,
-                     ObservableMap<Miniature, Integer> neededMiniatures) {
+                     ObservableList<Miniature> neededMiniatures, ObservableList<Integer> miniatureCount) {
         super(setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
         this.neededMiniatures = neededMiniatures;
+        this.miniatureCount = miniatureCount;
     }
 
-    public CustomSet(int setId, String setName, float retailMarkup,
+    public CustomSet(int setId, String setName, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount,
-                     ObservableMap<Miniature, Integer> neededMiniatures) {
+                     ObservableList<Miniature> neededMiniatures, ObservableList<Integer> miniatureCount) {
         super(setId, setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
         this.neededMiniatures = neededMiniatures;
+        this.miniatureCount = miniatureCount;
+    }
+    public CustomSet(String setName, BigDecimal retailMarkup,
+                     int currentStock, int lowStockAmount, int overStockAmount) {
+        super(setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
     }
 
-    public ObservableMap<Miniature, Integer> getNeededMiniatures() {
+    public CustomSet(int setId, String setName, BigDecimal retailMarkup,
+                     int currentStock, int lowStockAmount, int overStockAmount) {
+        super(setId, setName, retailMarkup, currentStock, lowStockAmount, overStockAmount);
+    }
+
+    public ObservableList<Miniature> getNeededMiniatures() {
         return neededMiniatures;
     }
 
-    public void setNeededMiniatures(ObservableMap<Miniature, Integer> neededMiniatures) {
+    public void setNeededMiniatures(ObservableList<Miniature> neededMiniatures) {
         this.neededMiniatures = neededMiniatures;
     }
 
-    public float getWholeSalePrice() {
-        AtomicReference<Float> totalWholeSalePrice = new AtomicReference<>((float) 0);
-        neededMiniatures.forEach( (miniature, integer) -> {
-            totalWholeSalePrice.updateAndGet(v -> v + miniature.getWholeSalePrice() * integer);
-        } );
-
-        return totalWholeSalePrice.get();
-        
+    public ObservableList<Integer> getMiniatureCount() {
+        return miniatureCount;
     }
 
-    public void addMiniature(Miniature newMiniature, int count){
-        neededMiniatures.put(newMiniature, count);
+    public void setMiniatureCount(ObservableList<Integer> miniatureCount) {
+        this.miniatureCount = miniatureCount;
     }
 
-    public void updateMiniature(Miniature newMiniature, int newCount){
-        neededMiniatures.put(newMiniature, newCount);
+    public BigDecimal getWholesalePrice() {
+        BigDecimal totalWholesalePrice = new BigDecimal(0.00);
+        for (int i = 0; i < neededMiniatures.size(); i++) {
+            totalWholesalePrice = totalWholesalePrice.add((neededMiniatures.get(i).getWholeSalePrice()
+                                                            .multiply(new BigDecimal(miniatureCount.get(i)))));
+        }
+        return totalWholesalePrice;
     }
 
-    public void removeMiniature(Miniature newMiniature){
-        neededMiniatures.remove(newMiniature);
+    public Miniature getMiniature(int miniatureId){
+        for(int i = 0; i < neededMiniatures.size(); i++){
+            if(neededMiniatures.get(i).getId() == miniatureId){
+                return neededMiniatures.get(i);
+            }
+        }
+        return null;
+    }
+
+    public int getMiniatureCount(int miniatureId){
+        for(int i = 0; i < neededMiniatures.size(); i++){
+            if(neededMiniatures.get(i).getId() == miniatureId){
+                return miniatureCount.get(i);
+            }
+        }
+        return -1;
+    }
+
+    public void addMiniature(Miniature miniature, int count){
+        neededMiniatures.add(miniature);
+        miniatureCount.add(count);
+    }
+
+    public void updateMiniatureCount(Miniature miniature, int count){
+        for(int i = 0; i < neededMiniatures.size(); i++){
+            if(neededMiniatures.get(i).getId() == miniature.getId()){
+                miniatureCount.set(i, count);
+            }
+        }
+    }
+
+    public void removeMiniature(Miniature miniature){
+        for(int i = 0; i < neededMiniatures.size(); i++){
+            if(neededMiniatures.get(i).getId() == miniature.getId()){
+                neededMiniatures.remove(i);
+                miniatureCount.remove(i);
+            }
+        }
     }
 
 }

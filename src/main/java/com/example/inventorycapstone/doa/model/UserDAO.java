@@ -1,12 +1,7 @@
 package com.example.inventorycapstone.doa.model;
 
-import com.example.inventorycapstone.model.businessInfo.Location;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 import static com.example.inventorycapstone.doa.database.Query.getResult;
 import static com.example.inventorycapstone.doa.database.Query.makeQuery;

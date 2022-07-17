@@ -1,5 +1,7 @@
 package com.example.inventorycapstone.model;
 
+import java.math.BigDecimal;
+
 public class Miniature {
 
     final String ID_SUFFIX = "M";
@@ -7,8 +9,8 @@ public class Miniature {
     String name;
     String brand;
     String supplier;
-    float wholeSalePrice;
-    float retailMarkup;
+    BigDecimal wholeSalePrice;
+    BigDecimal retailMarkup;
     int currentStock;
     int lowStockAmount;
     int overStockAmount;
@@ -17,7 +19,7 @@ public class Miniature {
 
     public Miniature(String name,
                      String brand, String supplier,
-                     float wholeSalePrice, float retailMarkup,
+                     BigDecimal wholeSalePrice, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount) {
         this.name = name;
         this.brand = brand;
@@ -31,7 +33,7 @@ public class Miniature {
 
     public Miniature(int id, String name,
                      String brand, String supplier,
-                     float wholeSalePrice, float retailMarkup,
+                     BigDecimal wholeSalePrice, BigDecimal retailMarkup,
                      int currentStock, int lowStockAmount, int overStockAmount) {
         this.id = id;
         this.name = name;
@@ -76,19 +78,19 @@ public class Miniature {
         this.supplier = supplier;
     }
 
-    public float getWholeSalePrice() {
+    public BigDecimal getWholeSalePrice() {
         return wholeSalePrice;
     }
 
-    public void setWholeSalePrice(float wholeSalePrice) {
+    public void setWholeSalePrice(BigDecimal wholeSalePrice) {
         this.wholeSalePrice = wholeSalePrice;
     }
 
-    public float getRetailMarkup() {
+    public BigDecimal getRetailMarkup() {
         return retailMarkup;
     }
 
-    public void setRetailMarkup(float retailMarkup) {
+    public void setRetailMarkup(BigDecimal retailMarkup) {
         this.retailMarkup = retailMarkup;
     }
 

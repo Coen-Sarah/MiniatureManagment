@@ -79,6 +79,30 @@ public class EmployeeDAO {
         return allEmployees;
     }
 
+    public static ObservableList<Employee> getAllFromLocation(int locationId){
+
+        ObservableList<Employee> allEmployees = FXCollections.observableArrayList();
+        Employee employee;
+        try {
+            String getEmployeeString =
+                    "SELECT * FROM " + TABLE_NAME + " WHERE " + LOCATION_ID + " = " + locationId;
+            makeQuery(getEmployeeString);
+            ResultSet employeeResults = getResult();
+
+            while (employeeResults.next()) {
+                employee = new Employee(employeeResults.getInt(ID),
+                        employeeResults.getInt(LOCATION_ID),
+                        employeeResults.getString(NAME));
+                allEmployees.add(employee);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allEmployees;
+    }
+
     public static void update(Employee employee){
         String updateEmployeeQuery =
                 "UPDATE Employees SET " +

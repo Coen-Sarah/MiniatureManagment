@@ -31,6 +31,11 @@ public class HashController {
         return hash;
     }
 
+    public static boolean comparePassword(String givenPassword, String savedPasswordHash, String savedSalt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] password = encodePassword(givenPassword, fromHex(savedSalt));
+        return toHex(password).equals(savedPasswordHash);
+    }
+
     public static String toHex(byte[] array) throws NoSuchAlgorithmException
     {
         BigInteger bi = new BigInteger(1, array);

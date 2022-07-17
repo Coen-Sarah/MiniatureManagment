@@ -18,7 +18,11 @@ public class Query {
             // determine query execution
             if(query.toLowerCase().startsWith("select"))
                 result=stmt.executeQuery(q);
-            if(query.toLowerCase().startsWith("delete")||query.toLowerCase().startsWith("insert")||query.toLowerCase().startsWith("update"))
+            if(query.toLowerCase().startsWith("insert")) {
+                stmt.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
+                result = stmt.getGeneratedKeys();
+            }
+            if(query.toLowerCase().startsWith("delete")||query.toLowerCase().startsWith("update"))
                 stmt.executeUpdate(q);
 
         }
@@ -26,6 +30,7 @@ public class Query {
             ex.printStackTrace();
         }
     }
+
     public static ResultSet getResult(){
         return result;
     }

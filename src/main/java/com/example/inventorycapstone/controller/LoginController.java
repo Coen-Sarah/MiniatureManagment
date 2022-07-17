@@ -23,8 +23,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.inventorycapstone.util.HashController.fromHex;
-import static com.example.inventorycapstone.util.HashController.toHex;
+import static com.example.inventorycapstone.util.HashController.*;
 
 public class LoginController {
 
@@ -68,8 +67,7 @@ public class LoginController {
         String[] userData = UserDAO.get(usernameInput.getText());
         if (userData != null){
             try {
-                byte[] hashedPassword = HashController.encodePassword(passwordInput.getText(), fromHex(userData[2]));
-                if(userData[1].equals(toHex(hashedPassword))){
+                if(comparePassword(passwordInput.getText(), userData[1], userData[2])){
                     return true;
                 } else {
                     invalidPasswordAlert.show();

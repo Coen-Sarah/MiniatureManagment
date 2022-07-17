@@ -1,18 +1,20 @@
 package com.example.inventorycapstone.model;
 
+import java.math.BigDecimal;
+
 public abstract class MiniatureSet {
 
     int id;
     String name;
-    float wholeSalePrice;
-    float retailMarkup;
+    BigDecimal wholeSalePrice;
+    BigDecimal retailMarkup;
     int currentStock;
     int lowStockAmount;
     int overStockAmount;
 
     public MiniatureSet(){}
 
-    public MiniatureSet(String name, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+    public MiniatureSet(String name, BigDecimal retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
         this.name = name;
         this.retailMarkup = retailMarkup;
         this.currentStock = currentStock;
@@ -20,7 +22,7 @@ public abstract class MiniatureSet {
         this.overStockAmount = overStockAmount;
     }
 
-    public MiniatureSet(int id, String name, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+    public MiniatureSet(int id, String name, BigDecimal retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
         this.id = id;
         this.name = name;
         this.retailMarkup = retailMarkup;
@@ -29,7 +31,7 @@ public abstract class MiniatureSet {
         this.overStockAmount = overStockAmount;
     }
 
-    public MiniatureSet(String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+    public MiniatureSet(String name, BigDecimal wholeSalePrice, BigDecimal retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
         this.name = name;
         this.wholeSalePrice = wholeSalePrice;
         this.retailMarkup = retailMarkup;
@@ -38,7 +40,7 @@ public abstract class MiniatureSet {
         this.overStockAmount = overStockAmount;
     }
 
-    public MiniatureSet(int id, String name, float wholeSalePrice, float retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
+    public MiniatureSet(int id, String name, BigDecimal wholeSalePrice, BigDecimal retailMarkup, int currentStock, int lowStockAmount, int overStockAmount) {
         this.id = id;
         this.name = name;
         this.wholeSalePrice = wholeSalePrice;
@@ -64,11 +66,11 @@ public abstract class MiniatureSet {
         this.name = name;
     }
 
-    public float getRetailMarkup() {
+    public BigDecimal getRetailMarkup() {
         return retailMarkup;
     }
 
-    public void setRetailMarkup(float retailMarkup) {
+    public void setRetailMarkup(BigDecimal retailMarkup) {
         this.retailMarkup = retailMarkup;
     }
 

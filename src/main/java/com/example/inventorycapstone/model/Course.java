@@ -1,51 +1,56 @@
 package com.example.inventorycapstone.model;
 
+import java.util.Calendar;
+
 public class Course {
 
-    int courseId;
-    String courseName;
+    int id;
+    String name;
     int locationId;
+    Calendar startTime;
     int managingEmployeeId;
     int numberOfAttendees;
-    CustomSet neededMiniatures;
+    CustomSet courseSet;
 
     public Course(){}
 
-    public Course(String courseName,
-                  int locationId, int managingEmployeeId, int numberOfAttendees,
-                  CustomSet neededMiniatures) {
-        this.courseName = courseName;
+    public Course(String name,
+                  int locationId, Calendar startTime, int managingEmployeeId, int numberOfAttendees,
+                  CustomSet courseSet) {
+        this.name = name;
         this.locationId = locationId;
+        this.startTime = startTime;
         this.managingEmployeeId = managingEmployeeId;
         this.numberOfAttendees = numberOfAttendees;
-        this.neededMiniatures = neededMiniatures;
+        this.courseSet = courseSet;
     }
 
-    public Course(int courseId, String courseName,
-                  int locationId, int managingEmployeeId, int numberOfAttendees,
-                  CustomSet neededMiniatures) {
-        this.courseId = courseId;
-        this.courseName = courseName;
+    public Course(int id, String name,
+                  int locationId, Calendar startTime, int managingEmployeeId, int numberOfAttendees,
+                  CustomSet courseSet) {
+        this.id = id;
+        this.name = name;
         this.locationId = locationId;
+        this.startTime = startTime;
         this.managingEmployeeId = managingEmployeeId;
         this.numberOfAttendees = numberOfAttendees;
-        this.neededMiniatures = neededMiniatures;
+        this.courseSet = courseSet;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public int getId() {
+        return id;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getLocationId() {
@@ -54,6 +59,14 @@ public class Course {
 
     public void setLocationId(int locationId) {
         this.locationId = locationId;
+    }
+
+    public Calendar getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Calendar startTime) {
+        this.startTime = startTime;
     }
 
     public int getManagingEmployeeId() {
@@ -72,11 +85,11 @@ public class Course {
         this.numberOfAttendees = numberOfAttendees;
     }
 
-    public CustomSet getNeededMiniatures() {
-        return neededMiniatures;
+    public CustomSet getCourseSet() {
+        return courseSet;
     }
 
-    public void setNeededMiniatures(CustomSet neededMiniatures) {
-        this.neededMiniatures = neededMiniatures;
+    public void setCourseSet(CustomSet courseSet) {
+        this.courseSet = courseSet;
     }
 }
