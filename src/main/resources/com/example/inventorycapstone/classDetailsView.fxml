@@ -47,8 +47,8 @@
       <Label text="Retail Markup (%)" GridPane.rowIndex="12" />
       <Label text="Wholesale Price" GridPane.rowIndex="11" />
       <Label text="Location" GridPane.rowIndex="4" />
-      <Button fx:id="classChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
-      <Button fx:id="classDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="classEdit" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="classDelete" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
       <TextField fx:id="className" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextField fx:id="classID" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="classRetail" GridPane.columnIndex="1" GridPane.rowIndex="12" />
@@ -67,14 +67,25 @@
       <TableView fx:id="classMinis" prefHeight="82.0" prefWidth="305.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
          <columns>
             <TableColumn fx:id="classMiniId" prefWidth="41.599913597106934" text="ID" />
-            <TableColumn fx:id="classMiniName" prefWidth="119.20007705688477" text="Name" />
-            <TableColumn fx:id="classMiniPer" prefWidth="72.800048828125" text="Per Person" />
-            <TableColumn fx:id="classMiniTotal" prefWidth="86.40004577636716" text="Total Count" />
+            <TableColumn fx:id="classMiniName" prefWidth="135.1999740600586" text="Name" />
+            <TableColumn fx:id="classMiniPer" prefWidth="80.00006103515625" text="Per Person" />
+            <TableColumn fx:id="classMiniTotal" prefWidth="84.00007629394531" text="Total Count" />
          </columns>
       </TableView>
       <Label text="Included Miniatures" GridPane.rowIndex="9" />
       <Label text="Time" GridPane.rowIndex="7" />
-      <TextField fx:id="classTime" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <children>
+            <Spinner fx:id="classTimeHours" prefHeight="26.0" prefWidth="75.0" />
+            <Label text=":">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Spinner fx:id="classTimeMinutes" prefHeight="26.0" prefWidth="75.0" />
+            <Spinner fx:id="classTimeAP" prefHeight="26.0" prefWidth="75.0" />
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
