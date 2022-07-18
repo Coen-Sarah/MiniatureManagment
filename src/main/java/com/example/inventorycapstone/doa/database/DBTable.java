@@ -1,10 +1,7 @@
 package com.example.inventorycapstone.doa.database;
 
 import com.example.inventorycapstone.doa.model.*;
-import com.example.inventorycapstone.model.Course;
-import com.example.inventorycapstone.model.CustomSet;
-import com.example.inventorycapstone.model.Miniature;
-import com.example.inventorycapstone.model.OfficialSet;
+import com.example.inventorycapstone.model.*;
 import com.example.inventorycapstone.model.businessInfo.Employee;
 import com.example.inventorycapstone.model.businessInfo.Location;
 import com.example.inventorycapstone.util.CSVParser;
@@ -16,6 +13,9 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -210,7 +210,7 @@ public class DBTable {
             for(int i = 6; i < set.length; i++){
                 int miniature = Integer.parseInt(set[i].split("\\.")[0]);
                 int count = Integer.parseInt(set[i].split("\\.")[1]);
-                customSet.addMiniature(MiniatureDAO.get(miniature), count);
+                customSet.addMiniature( new NeededMiniature(MiniatureDAO.get(miniature), count));
             }
             SetDAO.add(customSet);
         }
@@ -223,19 +223,14 @@ public class DBTable {
             for(int k = 6; k < courseSetArray.get(i).length; k++){
                 int miniature = Integer.parseInt(courseSetArray.get(i)[k].split("\\.")[0]);
                 int count = Integer.parseInt(courseSetArray.get(i)[k].split("\\.")[1]);
-                courseSet.addMiniature(MiniatureDAO.get(miniature), count);
-            }
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm", Locale.ENGLISH);
-            try {
-                System.out.println(courseArray.get(i)[3]);
-                calendar.setTime(sdf.parse(courseArray.get(i)[3]));
-            } catch (ParseException e){
-                calendar.setTime(Date.from(Instant.now()));
+                courseSet.addMiniature( new NeededMiniature(MiniatureDAO.get(miniature), count));
             }
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime date = LocalDateTime.parse(courseArray.get(i)[3], formatter);
+
             Course course = new Course( Integer.parseInt(courseArray.get(i)[0]), courseArray.get(i)[1],
-                                        Integer.parseInt(courseArray.get(i)[2]), calendar,
+                                        Integer.parseInt(courseArray.get(i)[2]), date,
                                         Integer.parseInt(courseArray.get(i)[4]),Integer.parseInt(courseArray.get(i)[5]),
                                         courseSet);
             CourseDAO.add(course);

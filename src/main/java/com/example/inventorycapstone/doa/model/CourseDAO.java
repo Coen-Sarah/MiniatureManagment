@@ -7,8 +7,9 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import static com.example.inventorycapstone.doa.database.Query.getResult;
 import static com.example.inventorycapstone.doa.database.Query.makeQuery;
@@ -39,11 +40,10 @@ public class CourseDAO {
                         " ) VALUES (" +
                         "\""+ course.getName() +
                         "\", \""+ course.getLocationId() +
-                        "\", \""+ new Timestamp(course.getStartTime().getTimeInMillis()) +
+                        "\", \""+ toUTCTime(course.getStartTime()) +
                         "\", \""+ course.getManagingEmployeeId() +
                         "\", \""+ setId +
                         "\",\""+ course.getNumberOfAttendees() + "\");";
-        System.out.println(createCourseQuery);
         makeQuery(createCourseQuery);
 
         try {
@@ -72,13 +72,12 @@ public class CourseDAO {
             ResultSet courseResults = getResult();
 
             courseResults.next();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(courseResults.getTimestamp(DATETIME).getTime());
+            System.out.println(courseResults.getTimestamp(DATETIME).toLocalDateTime());
             course = new Course(
                     courseResults.getInt(ID),
                     courseResults.getString(NAME),
                     courseResults.getInt(LOCATION_ID),
-                    calendar,
+                    fromUTCTime(courseResults.getTimestamp(DATETIME).toLocalDateTime()),
                     courseResults.getInt(EMPLOYEE_ID),
                     courseResults.getInt(ATTENDEES),
                     (CustomSet) SetDAO.get(courseResults.getInt(SET_ID)));
@@ -89,6 +88,8 @@ public class CourseDAO {
             return null;
         }
     }
+
+
 
     public static ObservableList<Course> getAll(){
 
@@ -101,13 +102,12 @@ public class CourseDAO {
             ResultSet courseResults = getResult();
 
             while (courseResults.next()) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(courseResults.getTimestamp(DATETIME).getTime());
+                System.out.println(courseResults.getTimestamp(DATETIME).toLocalDateTime());
                 course = new Course(
                         courseResults.getInt(ID),
                         courseResults.getString(NAME),
                         courseResults.getInt(LOCATION_ID),
-                        calendar,
+                        fromUTCTime(courseResults.getTimestamp(DATETIME).toLocalDateTime()),
                         courseResults.getInt(EMPLOYEE_ID),
                         courseResults.getInt(ATTENDEES),
                         (CustomSet) SetDAO.get(courseResults.getInt(SET_ID)));
@@ -126,7 +126,7 @@ public class CourseDAO {
                 "UPDATE " + TABLE_NAME +  " SET " +
                         NAME + " = \""+ course.getName()+ "\",\n" +
                         LOCATION_ID + " = "+ course.getLocationId()+ ",\n" +
-                        DATETIME + " = \""+ new Timestamp(course.getStartTime().getTimeInMillis()) + "\",\n" +
+                        DATETIME + " = \""+ toUTCTime(course.getStartTime()) + "\",\n" +
                         EMPLOYEE_ID + " = "+ course.getManagingEmployeeId()+ ",\n" +
                         ATTENDEES + " = " + course.getNumberOfAttendees()+
                         " WHERE " + ID + " = " + course.getId() +";";
@@ -141,4 +141,20 @@ public class CourseDAO {
         SetDAO.delete(course.getCourseSet());
     }
 
+    private static LocalDateTime toUTCTime(LocalDateTime time) {
+        ZonedDateTime localZoneTime = time.atZone(ZoneId.systemDefault());
+        ZonedDateTime utcTime = localZoneTime.withZoneSameInstant(ZoneId.of("UTC"));
+        LocalDateTime localDateTime = utcTime.toLocalDateTime();
+        return localDateTime;
+    }
+
+    private static LocalDateTime fromUTCTime(LocalDateTime time) {
+        ZonedDateTime localZoneTime = time.atZone(ZoneId.of("UTC"));
+        ZonedDateTime utcTime = localZoneTime.withZoneSameInstant(ZoneId.systemDefault());
+        LocalDateTime localDateTime = utcTime.toLocalDateTime();
+        return localDateTime;
+    }
+
+
 }
+

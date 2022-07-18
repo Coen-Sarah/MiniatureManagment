@@ -1,5 +1,6 @@
 package com.example.inventorycapstone.model;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public class Course {
@@ -7,7 +8,7 @@ public class Course {
     int id;
     String name;
     int locationId;
-    Calendar startTime;
+    LocalDateTime startTime;
     int managingEmployeeId;
     int numberOfAttendees;
     CustomSet courseSet;
@@ -15,7 +16,7 @@ public class Course {
     public Course(){}
 
     public Course(String name,
-                  int locationId, Calendar startTime, int managingEmployeeId, int numberOfAttendees,
+                  int locationId, LocalDateTime startTime, int managingEmployeeId, int numberOfAttendees,
                   CustomSet courseSet) {
         this.name = name;
         this.locationId = locationId;
@@ -26,7 +27,7 @@ public class Course {
     }
 
     public Course(int id, String name,
-                  int locationId, Calendar startTime, int managingEmployeeId, int numberOfAttendees,
+                  int locationId, LocalDateTime startTime, int managingEmployeeId, int numberOfAttendees,
                   CustomSet courseSet) {
         this.id = id;
         this.name = name;
@@ -61,11 +62,11 @@ public class Course {
         this.locationId = locationId;
     }
 
-    public Calendar getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Calendar startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 

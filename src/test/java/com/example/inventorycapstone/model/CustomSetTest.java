@@ -13,32 +13,26 @@ class CustomSetTest {
     @Test
     void addMiniature() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
         CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
-                5, 2, 6, miniatures, counts);
+                5, 2, 6, miniatures);
 
-        setC.addMiniature(addOn, 1);
+        setC.addMiniature(addOn);
 
         assertEquals(5, setC.neededMiniatures.size());
 
@@ -47,66 +41,55 @@ class CustomSetTest {
     @Test
     void getMiniature() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
         CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
-                5, 2, 6, miniatures, counts);
+                5, 2, 6, miniatures);
 
-        assertEquals("One", setC.getMiniature(1).getName());
+        assertEquals("One", setC.getMiniature(1).getMiniature().getName());
 
     }
 
     @Test
     void updateMiniature() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
         CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
-                5, 2, 6, miniatures, counts);
+                5, 2, 6, miniatures);
 
-        setC.updateMiniatureCount(miniatures.get(2), 1);
+        miniatures.get(2).setCount(1);
+        setC.updateMiniature(miniatures.get(2));
 
-        assertEquals(1, setC.getMiniatureCount().get(2));
+        assertEquals(1, setC.getNeededMiniatures().get(2).count);
         assertEquals(4, setC.neededMiniatures.size());
 
     }
@@ -114,30 +97,24 @@ class CustomSetTest {
     @Test
     void removeMiniature() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
         CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
-                5, 2, 6, miniatures, counts);
+                5, 2, 6, miniatures);
 
         assertEquals(4, setC.neededMiniatures.size());
         setC.removeMiniature(miniatures.get(2));
@@ -147,32 +124,27 @@ class CustomSetTest {
     @Test
     void getWholeSalePriceOutputsCorrectValue() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.50F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.50F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
         CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
-                5, 2, 6, miniatures, counts);
+                5, 2, 6, miniatures);
 
-        assertEquals( new BigDecimal(90.50) , setC.getWholesalePrice());
+        assertEquals( new BigDecimal(110.50) , setC.getWholesalePrice());
 
     }
 }

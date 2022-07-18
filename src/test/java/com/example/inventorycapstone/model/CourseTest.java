@@ -7,6 +7,7 @@ import javafx.collections.ObservableMap;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -16,73 +17,59 @@ class CourseTest {
 
     @Test
     void addMiniature(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, Calendar.JULY,16,10,30);
+        LocalDateTime dateTime = LocalDateTime.now();
         Course course = new Course("Test Course",
-                1, calendar , 1,
+                1, dateTime , 1,
                 10 , setC);
 
-        course.getCourseSet().addMiniature(addOn,4);
+        course.getCourseSet().addMiniature(new NeededMiniature(addOn.miniature, addOn.count));
 
     }
 
     @Test
     void updateMiniature(){
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, Calendar.JULY,16,10,30);
+        LocalDateTime dateTime = LocalDateTime.now();
         Course course = new Course("Test Course",
-                1, calendar , 1,
+                1, dateTime , 1,
                 10 , setC);
 
     }
@@ -90,30 +77,24 @@ class CourseTest {
     @Test
     void deleteMiniature(){
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
     }
 

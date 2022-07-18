@@ -1,9 +1,6 @@
 package com.example.inventorycapstone.doa.model;
 
-import com.example.inventorycapstone.model.CustomSet;
-import com.example.inventorycapstone.model.Miniature;
-import com.example.inventorycapstone.model.MiniatureSet;
-import com.example.inventorycapstone.model.OfficialSet;
+import com.example.inventorycapstone.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -125,8 +122,8 @@ public class SetDAO {
         for (int i = 0; i < set.getNeededMiniatures().size(); i++) {
             createCustomSetQuery +=
                     "(\"" + setId +
-                    "\", \"" + set.getNeededMiniatures().get(i).getId() +
-                    "\",\"" + set.getMiniatureCount().get(i) + "\"),";
+                    "\", \"" + set.getNeededMiniatures().get(i).getMiniature().getId() +
+                    "\",\"" + set.getNeededMiniatures().get(i).getCount() + "\"),";
         }
         createCustomSetQuery = createCustomSetQuery.substring(0,createCustomSetQuery.length() - 1) + ";";
         System.out.println(createCustomSetQuery);
@@ -203,34 +200,39 @@ public class SetDAO {
 
 
         do{
-            set.addMiniature(MiniatureDAO.get(setResults.getInt(MINIATURE_ID)), setResults.getInt(COUNT));
+            set.addMiniature( new NeededMiniature(MiniatureDAO.get(setResults.getInt(MINIATURE_ID)), setResults.getInt(COUNT)));
         } while (setResults.next());
 
 
         return set;
     }
 
-    public static CustomSet getClassSet(){
-        /*CustomSet set = new CustomSet(
-                setResults.getInt(ID),
-                setResults.getString(NAME),
-                setResults.getBigDecimal(RETAIL_MARKUP),
-                setResults.getInt(CURRENT_STOCK),
-                setResults.getInt(LOW_STOCK),
-                setResults.getInt(OVER_STOCK));
-        Map<Miniature,Integer> miniatureMap = new HashMap<>();
+    public static ObservableList<MiniatureSet> getAll(){
 
-        do{
-            miniatureMap.put(MiniatureDAO.get(setResults.getInt(MINIATURE_ID)), setResults.getInt(COUNT));
-        } while (setResults.next());
+        ObservableList<MiniatureSet> allSets = FXCollections.observableArrayList();
+        try {
+            String getSetString =
+                    "SELECT * FROM " + TABLE_NAME + " WHERE " + IS_CLASS_SET + " = false;";
+            makeQuery(getSetString);
+            ResultSet setResults = getResult();
 
-        set.setCourseSet(FXCollections.observableMap(miniatureMap));
+            while(setResults.next()) {
+                if (setResults.getBoolean(IS_OFFICIAL_SET)) {
+                    allSets.add(getOfficialSetDetails(setResults.getInt(ID)));
+                } else {
+                    allSets.add(getCustomSetDetails(setResults.getInt(ID)));
+                }
+            }
 
-        return set;*/
-        return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return allSets;
     }
 
-    public static ObservableList<MiniatureSet> getAll(){
+    public static ObservableList<MiniatureSet> getAllWithCourseSets(){
 
         ObservableList<MiniatureSet> allSets = FXCollections.observableArrayList();
         try {

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -55,9 +56,10 @@ class InventoryTest {
         CustomSet customSet = new CustomSet("Test", new BigDecimal(1.0),
                 5, 2, 6);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(Date.from(Instant.now()));
-        Course course = new Course("Test", 1, calendar , 1, 10, customSet);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Course course = new Course("Test Course",
+                1, dateTime , 1,
+                10 , customSet);
 
         Inventory.addCourse(course);
 
@@ -132,7 +134,7 @@ class InventoryTest {
                 "Test", "Test", new BigDecimal(1.0), new BigDecimal(1.0),
                 5, 1,10 );
         Inventory.addMiniature(miniature);
-        Inventory.updateMiniature(5, update);
+        Inventory.updateMiniature(update);
         assertEquals("Update", Inventory.getAllMiniatures().get(5).getName());
     }
 
@@ -146,7 +148,7 @@ class InventoryTest {
                 "Test", "Test", new BigDecimal(1.0), new BigDecimal(1.0),
                 5, 1,10 );
         Inventory.addSet(set);
-        Inventory.updateSet(6, update);
+        Inventory.updateSet(update);
         assertEquals("Update", Inventory.getAllSets().get(6).getName());
 
     }
@@ -156,13 +158,12 @@ class InventoryTest {
         CustomSet customSet = new CustomSet("Test", new BigDecimal(1.0),
                 5, 2, 6);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(Date.from(Instant.now()));
-        Course course = new Course("Test", 1, calendar , 1, 10, customSet);
-        Course update = new Course("Update", 1, calendar , 1, 10, customSet);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Course course = new Course("Test", 1, dateTime , 1, 10, customSet);
+        Course update = new Course("Update", 1, dateTime , 1, 10, customSet);
 
         Inventory.addCourse(course);
-        Inventory.updateCourse(2, update);
+        Inventory.updateCourse(update);
 
         assertEquals("Update", Inventory.getAllCourses().get(2).getName());
     }
@@ -198,9 +199,8 @@ class InventoryTest {
         CustomSet customSet = new CustomSet("Test", new BigDecimal(1.0),
                 5, 2, 6);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(Date.from(Instant.now()));
-        Course course = new Course("Test", 1, calendar , 1, 10, customSet);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Course course = new Course("Test", 1, dateTime , 1, 10, customSet);
 
         Inventory.addCourse(course);
         Inventory.deleteCourse(course);

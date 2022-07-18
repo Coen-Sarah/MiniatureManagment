@@ -2,6 +2,7 @@ package com.example.inventorycapstone.doa.model;
 
 import com.example.inventorycapstone.model.CustomSet;
 import com.example.inventorycapstone.model.Miniature;
+import com.example.inventorycapstone.model.NeededMiniature;
 import com.example.inventorycapstone.model.OfficialSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,30 +24,24 @@ class SetDAOTest {
     @Test
     void addsCustomSetsToDatabase() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
         int setId = SetDAO.add(setC);
         assertTrue(setId != -1);
@@ -63,30 +58,24 @@ class SetDAOTest {
 
     @Test
     void getsCustomSetFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
         int setId = SetDAO.add(setC);
         setC.setId(setId);
@@ -118,30 +107,24 @@ class SetDAOTest {
 
     @Test
     void updatesCustomSetFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
         int setId = SetDAO.add(setC);
         setC.setId(setId);
@@ -176,30 +159,24 @@ class SetDAOTest {
 
     @Test
     void deletesCustomSetFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
                 new Miniature(1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
                 new Miniature(2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
                 new Miniature(4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
         int setId = SetDAO.add(setC);
         setC.setId(setId);

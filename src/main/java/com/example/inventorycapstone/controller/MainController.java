@@ -1,6 +1,9 @@
 package com.example.inventorycapstone.controller;
 
+import com.example.inventorycapstone.doa.model.LocationDAO;
 import com.example.inventorycapstone.model.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,12 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainController {
@@ -176,12 +182,35 @@ public class MainController {
     public static Miniature getActiveMiniature(){
         return activeMiniature;
     }
+
+    public static void clearActiveMiniature(){
+        activeMiniature = null;
+    }
     
 // SET TAB METHODS
     
     private void initializeSetTab() {
 
         setSetSearch();
+
+        setTable.setRowFactory(tv -> {
+            TableRow<MiniatureSet> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (! row.isEmpty()
+                        && event.getButton() == MouseButton.PRIMARY) {
+
+                    MiniatureSet selectedSet = row.getItem();
+                    activeSet = selectedSet;
+                    if(selectedSet instanceof OfficialSet) {
+                        showOfficialSetDetailPane(false);
+                    } else {
+                        showCustomSetDetailPane(false);
+                    }
+                }
+            });
+            return row ;
+        });
+
         this.setTable.setItems(Inventory.getAllSets());
         this.setId.setCellValueFactory(new PropertyValueFactory("id"));
         this.setName.setCellValueFactory(new PropertyValueFactory("name"));
@@ -249,7 +278,6 @@ public class MainController {
     }
 
     private void showCustomSetDetailPane(boolean isNewSet){
-        String customSetEdit = "/com/example/inventorycapstone/customSetDetailsEdit.fxml";
         String customSetView = "/com/example/inventorycapstone/customSetDetailsView.fxml";
         try {
             GridPane setDetailPane;
@@ -257,7 +285,7 @@ public class MainController {
                 setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetView));
             } else {
                 activeMiniature = null;
-                setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetEdit));
+                setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetView));
             }
             setDetails.setContent(setDetailPane);
 
@@ -271,6 +299,10 @@ public class MainController {
     public static MiniatureSet getActiveSet(){
         return activeSet;
     }
+
+    public static void clearActiveSet(){
+        activeSet = null;
+    }
     
 // COURSE TAB METHODS
     
@@ -278,11 +310,34 @@ public class MainController {
         setCourseSearch();
         //TODO LOCATION NAME FROM ID
         //TODO DATE STRING FROM STARTTIME OBJECT
+        courseTable.setRowFactory(tv -> {
+            TableRow<Course> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (! row.isEmpty()
+                        && event.getButton() == MouseButton.PRIMARY) {
+
+                    Course selectedCourse = row.getItem();
+                    activeCourse = selectedCourse;
+                    showCourseDetailPane(false);
+                }
+            });
+            return row ;
+        });
+
         this.courseTable.setItems(Inventory.getAllCourses());
         this.courseId.setCellValueFactory(new PropertyValueFactory("id"));
         this.courseName.setCellValueFactory(new PropertyValueFactory("name"));
-        this.courseLocation.setCellValueFactory(new PropertyValueFactory("locationId"));
-        this.courseDate.setCellValueFactory(new PropertyValueFactory("startTime"));
+        this.courseLocation.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>)
+                        cellData -> {
+                            return new SimpleStringProperty(LocationDAO.get(cellData.getValue().getLocationId()).getName());
+                        });
+        this.courseDate.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>)
+                        cellData -> {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd\nHH:mm");
+                            return new SimpleStringProperty(cellData.getValue().getStartTime().format(formatter));
+                });
         
     }
 
@@ -322,21 +377,18 @@ public class MainController {
     }
 
     public void showNewCourse(ActionEvent event){
-        showCourseDetailsPane(true);
+        showCourseDetailPane(true);
     }
 
-    private void showCourseDetailsPane(boolean isNewCourse){
+    private void showCourseDetailPane(boolean isNewCourse){
         try {
-            GridPane courseDetailsPane;
-            String courseEdit = "/com/example/inventorycapstone/classDetailsEdit.fxml";
-            String courseView = "/com/example/inventorycapstone/classDetailsView.fxml";
-            if(!isNewCourse){
-                courseDetailsPane =  FXMLLoader.load(this.getClass().getResource(courseView));
-            } else {
+            String course = "/com/example/inventorycapstone/classDetailsView.fxml";
+            GridPane courseDetailPane;
+            if(isNewCourse){
                 activeMiniature = null;
-                courseDetailsPane =  FXMLLoader.load(this.getClass().getResource(courseEdit));
             }
-            courseDetails.setContent(courseDetailsPane);
+            courseDetailPane =  FXMLLoader.load(this.getClass().getResource(course));
+            courseDetails.setContent(courseDetailPane);
 
 
         } catch (IOException e){
@@ -348,6 +400,10 @@ public class MainController {
 
     public static Course getActiveCourse(){
         return activeCourse;
+    }
+
+    public static void clearActiveCourse(){
+        activeCourse = null;
     }
 
 // NAVIGATION METHODS

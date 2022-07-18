@@ -72,6 +72,7 @@ public class MiniatureController {
 
         if(activeMiniature.getId() > 0) {
             activeMiniature.setId(Integer.valueOf(miniatureInventoryId.getText()));
+            Inventory.updateMiniature(activeMiniature);
             MiniatureDAO.update(activeMiniature);
         } else {
             activeMiniature.setId(MiniatureDAO.add(activeMiniature));

@@ -79,16 +79,35 @@ public class Inventory {
         return courseFilteredList;
     }
     
-    public static void updateMiniature(int index, Miniature selectedMiniature){
+    public static void updateMiniature(Miniature selectedMiniature){
+        int index = 0;
+        for(int i = 0; i < allMiniatures.size(); i++){
+            if (allMiniatures.get(i).getId() == selectedMiniature.getId()){
+                index = i;
+            }
+        }
         allMiniatures.set(index, selectedMiniature);
     }
     
-    public static void updateSet(int index, MiniatureSet selectedSet){
-        allSets.set(index,selectedSet);
+    public static void updateSet(MiniatureSet selectedSet){
+
+        int index = 0;
+        for(int i = 0; i < allSets.size(); i++){
+            if (allSets.get(i).getId() == selectedSet.getId()){
+                index = i;
+            }
+        }
+        allSets.set(index, selectedSet);
     }
 
-    public static void updateCourse(int index, Course selectedCourse){
-        allCourses.set(index,selectedCourse);
+    public static void updateCourse(Course selectedCourse){
+        int index = 0;
+        for(int i = 0; i < allSets.size(); i++){
+            if (allSets.get(i).getId() == selectedCourse.getId()){
+                index = i;
+            }
+        }
+        allCourses.set(index, selectedCourse);
     }
     
     public static boolean deleteMiniature(Miniature selectedMiniature){
@@ -125,6 +144,14 @@ public class Inventory {
 
     public static ObservableList<Course> getAllCourses(){
         return allCourses;
+    }
+
+    public static ObservableList<NeededMiniature> getAllNeededMiniatures(){
+        ObservableList<NeededMiniature> allNeededMiniatures = FXCollections.observableArrayList();
+        for(int i = 0; i < allMiniatures.size(); i++){
+            allNeededMiniatures.add(new NeededMiniature(allMiniatures.get(i), 0));
+        }
+        return allNeededMiniatures;
     }
 
 }

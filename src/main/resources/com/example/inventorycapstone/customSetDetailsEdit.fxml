@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="detailsGrid" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.inventorycapstone.controller.set.CustomSetEditController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.39999389648438" minWidth="10.0" prefWidth="168.60000610351562" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.80001220703127" minWidth="10.0" prefWidth="170.9999938964844" />
@@ -44,10 +44,10 @@
       <Label text="Current Stock" GridPane.rowIndex="4" />
       <Label text="Over Stock Amount" GridPane.rowIndex="6" />
       <Label text="Low Stock Amount" GridPane.rowIndex="5" />
-      <Button fx:id="setSave" mnemonicParsing="false" text="Save" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
-      <Button fx:id="setCancel" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="setChange" mnemonicParsing="false" text="Save" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="setDiscard" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
       <TextField fx:id="setName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="setInventory" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="setInventoryId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="setOverStock" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <TextField fx:id="setLowStock" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -67,7 +67,7 @@
       <Label text="Retail Markup (%)" GridPane.rowIndex="12" />
       <Label text="Wholesale Price" GridPane.rowIndex="11" />
       <TextField fx:id="classWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-      <TextField fx:id="classRetail" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+      <TextField fx:id="setRetail" GridPane.columnIndex="1" GridPane.rowIndex="12" />
       <Label text="All Miniatures" GridPane.rowIndex="9" />
       <TableView fx:id="classMinis1" prefHeight="66.0" prefWidth="327.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
          <columns>

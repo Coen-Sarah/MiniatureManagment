@@ -3,12 +3,14 @@ package com.example.inventorycapstone.doa.model;
 import com.example.inventorycapstone.model.Course;
 import com.example.inventorycapstone.model.CustomSet;
 import com.example.inventorycapstone.model.Miniature;
+import com.example.inventorycapstone.model.NeededMiniature;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import static com.example.inventorycapstone.doa.database.DBConnection.makeConnection;
@@ -24,46 +26,28 @@ class CourseDAOTest {
     @Test
     void addsCourseToDatabase() {
 
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
-                new Miniature(-1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
-                new Miniature(-2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
-                new Miniature(-3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
-                new Miniature(-4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(-5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
+                new Miniature(1, "One", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
+                new Miniature(2, "Two", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(3, "Three", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(4, "Four", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        for(int i = 0; i < miniatures.size(); i++) {
-            miniatures.get(i).setId(MiniatureDAO.add(miniatures.get(i)));
-        }
-        MiniatureDAO.add(addOn);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, Calendar.JULY,16,10,30);
-        System.out.println( calendar.get(Calendar.YEAR) + " " +
-                            calendar.get(Calendar.MONTH) + " " +
-                            calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                            calendar.get(Calendar.HOUR) + ":" +
-                            calendar.get(Calendar.MINUTE) + " " +
-                            calendar.get(Calendar.AM_PM));
+        LocalDateTime dateTime = LocalDateTime.now();
         Course course = new Course("Test Course",
-                1, calendar , 1,
+                1, dateTime , 1,
                 10 , setC);
 
         int courseId = CourseDAO.add(course);
@@ -72,46 +56,28 @@ class CourseDAOTest {
 
     @Test
     void getsCourseFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
-                new Miniature(-1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
-                new Miniature(-2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
-                new Miniature(-3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
-                new Miniature(-4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(-5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
+                new Miniature(1, "One", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
+                new Miniature(2, "Two", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(3, "Three", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(4, "Four", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        for(int i = 0; i < miniatures.size(); i++) {
-            miniatures.get(i).setId(MiniatureDAO.add(miniatures.get(i)));
-        }
-        MiniatureDAO.add(addOn);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, Calendar.JULY,16,10,30);
-        System.out.println( calendar.get(Calendar.YEAR) + " " +
-                calendar.get(Calendar.MONTH) + " " +
-                calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                calendar.get(Calendar.HOUR) + ":" +
-                calendar.get(Calendar.MINUTE) + " " +
-                calendar.get(Calendar.AM_PM));
+        LocalDateTime dateTime = LocalDateTime.now();
         Course course = new Course("Test Course",
-                1, calendar , 1,
+                1, dateTime , 1,
                 10 , setC);
 
         int courseId = CourseDAO.add(course);
@@ -130,40 +96,28 @@ class CourseDAOTest {
 
     @Test
     void updatesCourseFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
-                new Miniature(-1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
-                new Miniature(-2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
-                new Miniature(-3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
-                new Miniature(-4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature(-5, "Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
+                new Miniature(1, "One", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
+                new Miniature(2, "Two", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(3, "Three", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(4, "Four", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        for(int i = 0; i < miniatures.size(); i++) {
-            miniatures.get(i).setId(MiniatureDAO.add(miniatures.get(i)));
-        }
-        addOn.setId(MiniatureDAO.add(addOn));
-
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2022, Calendar.JULY,16,10,30);
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
+;
+        LocalDateTime dateTime = LocalDateTime.now();
         Course insert = new Course("Test Course",
-                1, calendar , 1,
+                1, dateTime , 1,
                 10 , setC);
 
         int courseId = CourseDAO.add(insert);
@@ -172,10 +126,10 @@ class CourseDAOTest {
         course.setName("UpdatedCourse");
 
 
-        course.getCourseSet().updateMiniatureCount(miniatures.get(0),4);
+        course.getCourseSet().updateMiniature(miniatures.get(0));
         course.getCourseSet().removeMiniature(miniatures.get(2));
         course.getCourseSet().removeMiniature(miniatures.get(3));
-        course.getCourseSet().addMiniature(addOn, 10);
+        course.getCourseSet().addMiniature( new NeededMiniature(addOn.getMiniature(), 10));
 
         System.out.println("--------UPDATE STARTING---------");
         CourseDAO.update(course);
@@ -190,35 +144,29 @@ class CourseDAOTest {
 
     @Test
     void deletesCourseFromDatabase(){
-        ObservableList<Miniature> miniatures = FXCollections.observableArrayList();
-        ObservableList<Integer> counts = FXCollections.observableArrayList();
-        miniatures.add(
-                new Miniature(-1, "One", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(1);
-        miniatures.add(
-                new Miniature(-2, "Two", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(4);
-        miniatures.add(
-                new Miniature(-3, "Three", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        miniatures.add(
-                new Miniature(-4, "Four", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8));
-        counts.add(2);
-        Miniature addOn =
-                new Miniature("Five", "Test", "Test",
-                        new BigDecimal(10.00), new BigDecimal(00.50), 5, 3, 8);
+        ObservableList<NeededMiniature> miniatures = FXCollections.observableArrayList();
+        miniatures.add( new NeededMiniature(
+                new Miniature(1, "One", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 1));
+        miniatures.add( new NeededMiniature(
+                new Miniature(2, "Two", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(3, "Three", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 4));
+        miniatures.add( new NeededMiniature(
+                new Miniature(4, "Four", "Test", "Test",
+                        new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2));
+        NeededMiniature addOn = new NeededMiniature(new Miniature(5, "Five", "Test", "Test",
+                new BigDecimal(10.00F), new BigDecimal(0.50), 5, 3, 8), 2);
 
-        for(int i = 0; i < miniatures.size(); i++) {
-            miniatures.get(i).setId(MiniatureDAO.add(miniatures.get(i)));
-        }
-        addOn.setId(MiniatureDAO.add(addOn));
+        CustomSet setC = new CustomSet("Test", new BigDecimal(0.50),
+                5, 2, 6, miniatures);
 
-        CustomSet setC = new CustomSet("Test", new BigDecimal(00.50),
-                5, 2, 6, miniatures, counts);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Course insert = new Course("Test Course",
+                1, dateTime , 1,
+                10 , setC);
 
         int setId = SetDAO.add(setC);
         setC.setId(setId);
