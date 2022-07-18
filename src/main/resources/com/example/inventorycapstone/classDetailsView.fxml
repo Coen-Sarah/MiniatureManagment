@@ -55,11 +55,7 @@
       <TextField fx:id="courseId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="courseRetail" GridPane.columnIndex="1" GridPane.rowIndex="14" />
       <TextField fx:id="courseWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-      <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <children>
-            <ComboBox fx:id="courseLocation" prefHeight="26.0" prefWidth="207.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
+      <ComboBox fx:id="courseLocation" prefHeight="26.0" prefWidth="207.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Attendee Count" GridPane.rowIndex="8" />
       <Label text="Date" GridPane.rowIndex="6" />
       <Label text="Managing Employee" GridPane.rowIndex="5" />

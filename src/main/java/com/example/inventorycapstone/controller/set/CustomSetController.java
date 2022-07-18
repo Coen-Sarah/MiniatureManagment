@@ -1,6 +1,7 @@
 package com.example.inventorycapstone.controller.set;
 
 import com.example.inventorycapstone.controller.MainController;
+import com.example.inventorycapstone.doa.model.CourseDAO;
 import com.example.inventorycapstone.doa.model.SetDAO;
 import com.example.inventorycapstone.model.CustomSet;
 import com.example.inventorycapstone.model.Inventory;
@@ -12,8 +13,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
+
+import static com.example.inventorycapstone.util.TextFieldChecker.*;
+import static com.example.inventorycapstone.util.TextFieldChecker.checkValidNumber;
 
 public class CustomSetController extends SetController {
 
@@ -38,6 +43,7 @@ public class CustomSetController extends SetController {
     public TextField setOverStock;
     public TextField setLowStock;
     public TextField setStock;
+    public TextField setWholeSalePrice;
     public TextField setRetail;
 
     protected CustomSet activeSet;
@@ -58,6 +64,7 @@ public class CustomSetController extends SetController {
     protected void fillSetFields(){
         setName.setText(activeSet.getName());
         setInventoryId.setText(String.valueOf(activeSet.getId()));
+        setWholeSalePrice.setText(String.valueOf(activeSet.getWholesalePrice()));
         setRetail.setText(String.valueOf(activeSet.getRetailMarkup()));
         setStock.setText(String.valueOf(activeSet.getCurrentStock()));
         setLowStock.setText(String.valueOf(activeSet.getLowStockAmount()));
@@ -68,32 +75,50 @@ public class CustomSetController extends SetController {
     @Override
     protected void saveSet() {
 
-        if(activeSet == null) {
-            activeSet = new CustomSet();
-        }
+        if (checkAllFields()) {
+            if (activeSet == null) {
+                activeSet = new CustomSet();
+            }
 
-        activeSet.setName(setName.getText());
-        activeSet.setRetailMarkup(new BigDecimal(setRetail.getText()));
-        activeSet.setCurrentStock(Integer.parseInt(setStock.getText()));
-        activeSet.setLowStockAmount(Integer.parseInt(setLowStock.getText()));
-        activeSet.setOverStockAmount(Integer.parseInt(setOverStock.getText()));
-        activeSet.setNeededMiniatures(activeSet.getNeededMiniatures());
+            activeSet.setName(setName.getText());
+            activeSet.setRetailMarkup(new BigDecimal(setRetail.getText()));
+            activeSet.setCurrentStock(Integer.parseInt(setStock.getText()));
+            activeSet.setLowStockAmount(Integer.parseInt(setLowStock.getText()));
+            activeSet.setOverStockAmount(Integer.parseInt(setOverStock.getText()));
+            activeSet.setNeededMiniatures(activeSet.getNeededMiniatures());
 
-        if(activeSet.getId() > 0) {
-            activeSet.setId(Integer.valueOf(setInventoryId.getText()));
-            Inventory.updateSet(activeSet);
-            SetDAO.update(activeSet);
+            if (activeSet.getId() > 0) {
+                activeSet.setId(Integer.valueOf(setInventoryId.getText()));
+                Inventory.updateSet(activeSet);
+                SetDAO.update(activeSet);
+            } else {
+                activeSet.setId(SetDAO.add(activeSet));
+                Inventory.addSet(activeSet);
+            }
+            disableEdit();
+
         } else {
-            activeSet.setId(SetDAO.add(activeSet));
-            Inventory.addSet(activeSet);
+            Alert invalidInputAlert = new Alert(Alert.AlertType.ERROR, "Please verify the inserted data.");
+            invalidInputAlert.show();
         }
-        disableEdit();
+    }
 
+    private boolean checkAllFields() {
+        return  checkValidText(setName) &&
+                checkValidDecimal(setRetail) &&
+                checkValidNumber(setStock) &&
+                checkValidNumber(setLowStock) &&
+                checkValidNumber(setOverStock);
     }
 
     private void initializeNeededMiniaturesTable(){
 
-        setMiniTable.setItems(activeSet.getNeededMiniatures());
+        if(activeSet.getNeededMiniatures().size() == 0) {
+            setMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
+        } else {
+            setMiniTable.setItems(activeSet.getNeededMiniatures());
+        }
+
         setMiniId.setCellValueFactory(
                 (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
                         cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
@@ -136,7 +161,9 @@ public class CustomSetController extends SetController {
                 addButton.setOnAction(event -> {
                     System.out.println(miniature.getCount());
                     activeSet.addMiniature(miniature);
+                    setMiniTable.refresh();
                     System.out.println(activeSet.getNeededMiniatures().size());
+                    updateTable();
                 });
             }
         });
@@ -196,10 +223,12 @@ public class CustomSetController extends SetController {
                 }
 
                 setGraphic(removeButton);
+
                 removeButton.setOnAction(event -> {
                     System.out.println(miniature.getCount());
                     activeSet.removeMiniature(miniature);
                     System.out.println(activeSet.getNeededMiniatures().size());
+                    updateTable();
                 });
             }
         });
@@ -212,6 +241,15 @@ public class CustomSetController extends SetController {
         miniEditLabel.getChildren().add(allMiniLabel);
         miniEditTable.getChildren().add(allMiniTable);
     }
+    private void updateTable() {
+        if(activeSet.getNeededMiniatures().size() == 0) {
+            setMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
+        } else {
+            setMiniTable.setItems(activeSet.getNeededMiniatures());
+        }
+        setWholeSalePrice.setText(String.valueOf(activeSet.getWholesalePrice()));
+        setMiniTable.refresh();
+    }
 
     private void removeAllMiniaturesTable(){
         setMiniTable.getColumns().remove(setMiniRemove);
@@ -219,6 +257,12 @@ public class CustomSetController extends SetController {
         miniEditTable.getChildren().clear();
         miniEditLabel.setMaxHeight(0);
         miniEditTable.setMaxHeight(0);
+    }
+
+    @Override
+    protected void cancelSet(){
+        setMiniTable.setItems(((CustomSet)SetDAO.get(activeSet.getId())).getNeededMiniatures());
+        super.cancelSet();
     }
 
     @Override

@@ -61,6 +61,12 @@ public class CustomSet extends MiniatureSet{
     }
 
     public void addMiniature(NeededMiniature miniature){
+        for(int i = 0; i < neededMiniatures.size(); i++){
+            if(neededMiniatures.get(i).getMiniature().getId() == miniature.getMiniature().getId()){
+                neededMiniatures.get(i).setCount(neededMiniatures.get(i).getCount() + miniature.getCount());
+                return;
+            }
+        }
         neededMiniatures.add( miniature);
     }
 

@@ -87,7 +87,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="lowStockReport" mnemonicParsing="false" text="Save Low Stock Report">
+                              <Button fx:id="lowStockReport" mnemonicParsing="false" onAction="#generateLowStockReport" text="Save Low Stock Report">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -104,7 +104,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="overStockReport" mnemonicParsing="false" text="Save Over Stock Report">
+                              <Button fx:id="overStockReport" mnemonicParsing="false" onAction="#generateOverStockReport" text="Save Over Stock Report">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -124,7 +124,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Label fx:id="upcommingClassesAlert" prefHeight="138.0" prefWidth="370.0" text="Label" wrapText="true" HBox.hgrow="ALWAYS">
+                              <Label fx:id="upcomingCoursesAlert" prefHeight="138.0" prefWidth="370.0" text="Label" wrapText="true" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>

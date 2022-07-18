@@ -26,6 +26,25 @@ public class Course {
         this.courseSet = courseSet;
     }
 
+    public Course(String name,
+                  int locationId, LocalDateTime startTime, int managingEmployeeId, int numberOfAttendees) {
+        this.name = name;
+        this.locationId = locationId;
+        this.startTime = startTime;
+        this.managingEmployeeId = managingEmployeeId;
+        this.numberOfAttendees = numberOfAttendees;
+    }
+
+    public Course(int id, String name,
+                  int locationId, LocalDateTime startTime, int managingEmployeeId, int numberOfAttendees) {
+        this.id = id;
+        this.name = name;
+        this.locationId = locationId;
+        this.startTime = startTime;
+        this.managingEmployeeId = managingEmployeeId;
+        this.numberOfAttendees = numberOfAttendees;
+    }
+
     public Course(int id, String name,
                   int locationId, LocalDateTime startTime, int managingEmployeeId, int numberOfAttendees,
                   CustomSet courseSet) {

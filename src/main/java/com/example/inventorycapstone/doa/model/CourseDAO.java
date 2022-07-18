@@ -103,14 +103,16 @@ public class CourseDAO {
 
             while (courseResults.next()) {
                 System.out.println(courseResults.getTimestamp(DATETIME).toLocalDateTime());
+
                 course = new Course(
                         courseResults.getInt(ID),
                         courseResults.getString(NAME),
                         courseResults.getInt(LOCATION_ID),
                         fromUTCTime(courseResults.getTimestamp(DATETIME).toLocalDateTime()),
                         courseResults.getInt(EMPLOYEE_ID),
-                        courseResults.getInt(ATTENDEES),
-                        (CustomSet) SetDAO.get(courseResults.getInt(SET_ID)));
+                        courseResults.getInt(ATTENDEES));
+                    course.setCourseSet((CustomSet) SetDAO.get(courseResults.getInt(SET_ID)));
+
                 allCourses.add(course);
             }
 

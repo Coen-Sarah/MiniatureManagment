@@ -7,6 +7,8 @@ module com.example.inventorycapstone {
     requires validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires java.sql;
+    requires commons.csv;
+    requires org.apache.commons.lang3;
 
     opens com.example.inventorycapstone to javafx.fxml;
     exports com.example.inventorycapstone;

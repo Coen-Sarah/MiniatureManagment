@@ -2,6 +2,10 @@ package com.example.inventorycapstone.controller;
 
 import com.example.inventorycapstone.doa.model.LocationDAO;
 import com.example.inventorycapstone.model.*;
+import com.example.inventorycapstone.model.businessInfo.Location;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,18 +21,31 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
+import javafx.util.Pair;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.function.Consumer;
+
+import org.apache.commons.csv.*;
 
 public class MainController {
 
+    public Label username;
+    public Label liveClock;
+    public Timeline clock;
+
     public Accordion classStockReport;
     public ArrayList<TitledPane> reportItems = new ArrayList<TitledPane>();
+
+    public Label upcomingCoursesAlert;
+    public Label lowStockAlert;
+    public Label overStockAlert;
 
     public ScrollPane miniDetails;
     public ScrollPane setDetails;
@@ -62,27 +79,172 @@ public class MainController {
     private static Miniature activeMiniature;
     private static MiniatureSet activeSet;
     private static Course activeCourse;
+    private static Course reportCourse;
+
+    private static Miniature emptyMiniature;
 
     public MainController() {
     }
 
     public void initialize() {
-
+        //TODO RESET LOGIN PAGE
+        //initializeHeader();
+        emptyMiniature = new Miniature();
+        emptyMiniature.setName("No Miniatures Added");
         Inventory.setInventory();
         initializeMiniatureTab();
         initializeSetTab();
         initializeCourseTab();
-
+        setOverviewNotifications();
         addClassReportContent();
+    }
+
+    private void initializeHeader() {
+        username.setText(LoginController.getActiveUser());
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e ->
+                liveClock.setText(ZonedDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/YYYY hh:mm a ZZZZ")))),
+                new KeyFrame(Duration.seconds(1)));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
 // OVERVIEW TAB METHODS
 
+    private void setOverviewNotifications(){
+        setEventNotification();
+        setLowStockNotification();
+        setOverStockNotification();
+    }
+
+    private void setOverStockNotification() {
+        int miniatureCount = Inventory.getOverStockMiniatures().size();
+        int setCount = Inventory.getOverStockSets().size();
+        String alert = "There are \n\n" + miniatureCount + " Overstocked Miniatures\n" + setCount + " " +
+                "Overstocked Sets\n ";
+        overStockAlert.setText(alert);
+    }
+
+    private void setLowStockNotification() {
+        int miniatureCount = Inventory.getLowStockMiniatures().size();
+        int setCount = Inventory.getLowStockSets().size();
+        String alert = "There are \n" + miniatureCount + " Understocked Miniatures\n" + setCount + " Understocked Sets\n ";
+        lowStockAlert.setText(alert);
+    }
+
+    private void setEventNotification(){
+        Pair<LocalDateTime, ObservableList<Course>> output = Inventory.getUpcomingCourses();
+
+        String weekStartDate = output.getKey().toLocalDate().format(DateTimeFormatter.ofPattern("MMMM dd"));
+        ObservableList<Course> upcomingCourses = output.getValue();
+        final String[] alertText = {"For the week of: " + weekStartDate};
+        if (upcomingCourses.size() > 1) {
+            alertText[0] += " there are " + output.getValue().size() + " classes scheduled.\n";
+        } else {
+            alertText[0] += " there is " + output.getValue().size() + " class scheduled.\n";
+        }
+
+        output.getValue().forEach(
+                new Consumer<Course>(){
+                    @Override
+                    public void accept(Course course) {
+                        Location location = LocationDAO.get(course.getLocationId());
+                        alertText[0] += " - " + course.getName() + " will be held at " + location.getName() + ", " +
+                                location.getAddress() + " on " +
+                                course.getStartTime().format(DateTimeFormatter.ofPattern("MMMM dd")) + " at " +
+                                course.getStartTime().format(DateTimeFormatter.ofPattern("hh:mm:a")) + ".";
+
+                    }
+                });
+
+        upcomingCoursesAlert.setText(alertText[0]);
+    }
+
+    //TODO ADD FUNCTIONALITY
+    public void generateLowStockReport(ActionEvent event){
+        System.out.println("---- Low Mini ------");
+        try {
+        FileWriter writer = new FileWriter("reports/Low Stock Report.csv");
+        CSVPrinter printer = new CSVPrinter(writer,  CSVFormat.EXCEL);
+        printer.printRecord("item type","id", "item name", "current stock", "low stock amount");
+        Inventory.getLowStockMiniatures().forEach(
+                new Consumer<Miniature>(){
+                    @Override
+                    public void accept(Miniature miniature) {
+                        try {
+                                printer.printRecord(
+                                        "Miniature", miniature.getId(), miniature.getName(),
+                                        miniature.getCurrentStock(), miniature.getLowStockAmount());
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }}}
+                    );
+
+        System.out.println("---- Low Sets ------");
+        Inventory.getLowStockSets().forEach(
+                new Consumer<MiniatureSet>(){
+                    @Override
+                    public void accept(MiniatureSet set) {
+                        try {
+                            printer.printRecord(
+                                    "Set", set.getId(), set.getName(),
+                                    set.getCurrentStock(), set.getLowStockAmount());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //TODO ADD FUNCTIONALITY
+    public void generateOverStockReport(ActionEvent event){
+        try {
+            FileWriter writer = new FileWriter("reports/Overstock Report.csv");
+            CSVPrinter printer = new CSVPrinter(writer,  CSVFormat.EXCEL);
+            printer.printRecord("item type","id", "item name", "current stock", "low stock amount");
+            Inventory.getLowStockMiniatures().forEach(
+                    new Consumer<Miniature>(){
+                        @Override
+                        public void accept(Miniature miniature) {
+                            try {
+                                printer.printRecord(
+                                        "Miniature", miniature.getId(), miniature.getName(),
+                                        miniature.getCurrentStock(), miniature.getLowStockAmount());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }}}
+            );
+
+            System.out.println("---- Low Sets ------");
+            Inventory.getLowStockSets().forEach(
+                    new Consumer<MiniatureSet>(){
+                        @Override
+                        public void accept(MiniatureSet set) {
+                            try {
+                                printer.printRecord(
+                                        "Set", set.getId(), set.getName(),
+                                        set.getCurrentStock(), set.getLowStockAmount());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            writer.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private void addClassReportContent() {
         try {
-            for( int i = 0; i < 3 ; i++){
+            ObservableList<Course> sorted = Inventory.getCoursesByDate();
+            for( int i = 0; i < sorted.size() ; i++){
+                reportCourse = sorted.get(i);
                 TitledPane pane = FXMLLoader.load(this.getClass().getResource("/com/example/inventorycapstone/courseStockReportItem.fxml"));
-                pane.setText("" + i);
                 reportItems.add(pane);
             }
             classStockReport.getPanes().addAll(reportItems);
@@ -92,7 +254,10 @@ public class MainController {
             e.printStackTrace();
         }
     }
-    
+
+    public static Course getReportCourse(){
+        return reportCourse;
+    }
     
 // MINIATURE TAB METHODS    
 
@@ -308,8 +473,7 @@ public class MainController {
     
     private void initializeCourseTab() {
         setCourseSearch();
-        //TODO LOCATION NAME FROM ID
-        //TODO DATE STRING FROM STARTTIME OBJECT
+
         courseTable.setRowFactory(tv -> {
             TableRow<Course> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -335,7 +499,7 @@ public class MainController {
         this.courseDate.setCellValueFactory(
                 (Callback<TableColumn.CellDataFeatures<Course, String>, ObservableValue<String>>)
                         cellData -> {
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd\nHH:mm");
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd\nhh:mm");
                             return new SimpleStringProperty(cellData.getValue().getStartTime().format(formatter));
                 });
         
@@ -426,5 +590,8 @@ public class MainController {
     }
 
 // GENERAL METHODS
-
+    public static Miniature getEmptyMiniature(){
+        emptyMiniature.setName("No Miniatures Added.");
+        return emptyMiniature;
+    }
 }

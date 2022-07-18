@@ -3,13 +3,19 @@ package com.example.inventorycapstone.controller;
 import com.example.inventorycapstone.doa.model.MiniatureDAO;
 import com.example.inventorycapstone.model.Inventory;
 import com.example.inventorycapstone.model.Miniature;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.math.BigDecimal;
 import java.util.function.Consumer;
+
+import static com.example.inventorycapstone.util.TextFieldChecker.*;
+import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 public class MiniatureController {
 
@@ -29,6 +35,7 @@ public class MiniatureController {
     public TextField miniatureOverStock;
 
     private Miniature activeMiniature = new Miniature();
+    private boolean invalidInputFlag = false;
 
     public void initialize(){
         this.activeMiniature = MainController.getActiveMiniature();
@@ -57,29 +64,45 @@ public class MiniatureController {
 
     private void saveMiniature() {
 
-        if(activeMiniature == null) {
-            activeMiniature = new Miniature();
-        }
+        if(checkAllFields()) {
+            if (activeMiniature == null) {
+                activeMiniature = new Miniature();
+            }
 
-        activeMiniature.setName(miniatureName.getText());
-        activeMiniature.setBrand(miniatureBrand.getText());
-        activeMiniature.setSupplier(miniatureSupplier.getText());
-        activeMiniature.setWholesalePrice( new BigDecimal(miniatureWholesale.getText()));
-        activeMiniature.setRetailMarkup(new BigDecimal(miniatureRetail.getText()));
-        activeMiniature.setCurrentStock(Integer.parseInt(miniatureStock.getText()));
-        activeMiniature.setLowStockAmount(Integer.parseInt(miniatureLowStock.getText()));
-        activeMiniature.setOverStockAmount(Integer.parseInt(miniatureOverStock.getText()));
+            activeMiniature.setName(miniatureName.getText());
+            activeMiniature.setBrand(miniatureBrand.getText());
+            activeMiniature.setSupplier(miniatureSupplier.getText());
+            activeMiniature.setWholesalePrice(new BigDecimal(miniatureWholesale.getText()));
+            activeMiniature.setRetailMarkup(new BigDecimal(miniatureRetail.getText()));
+            activeMiniature.setCurrentStock(Integer.parseInt(miniatureStock.getText()));
+            activeMiniature.setLowStockAmount(Integer.parseInt(miniatureLowStock.getText()));
+            activeMiniature.setOverStockAmount(Integer.parseInt(miniatureOverStock.getText()));
 
-        if(activeMiniature.getId() > 0) {
-            activeMiniature.setId(Integer.valueOf(miniatureInventoryId.getText()));
-            Inventory.updateMiniature(activeMiniature);
-            MiniatureDAO.update(activeMiniature);
+            if (activeMiniature.getId() > 0) {
+                activeMiniature.setId(Integer.valueOf(miniatureInventoryId.getText()));
+                Inventory.updateMiniature(activeMiniature);
+                MiniatureDAO.update(activeMiniature);
+            } else {
+                activeMiniature.setId(MiniatureDAO.add(activeMiniature));
+                Inventory.addMiniature(activeMiniature);
+            }
+            disableEdit();
+
         } else {
-            activeMiniature.setId(MiniatureDAO.add(activeMiniature));
-            Inventory.addMiniature(activeMiniature);
-
+            Alert invalidInputAlert = new Alert(Alert.AlertType.ERROR,"Please verify the inserted data.");
+            invalidInputAlert.show();
         }
-        disableEdit();
+    }
+
+    private boolean checkAllFields() {
+        return  checkValidText(miniatureName) &&
+                checkValidText(miniatureBrand) &&
+                checkValidText(miniatureSupplier) &&
+                checkValidDecimal(miniatureWholesale) &&
+                checkValidDecimal(miniatureRetail) &&
+                checkValidNumber(miniatureStock) &&
+                checkValidNumber(miniatureLowStock) &&
+                checkValidNumber(miniatureOverStock);
     }
 
     private void cancelMiniature() {
@@ -153,5 +176,6 @@ public class MiniatureController {
                         }
                     }
                 });
+        miniatureInventoryId.setDisable(true);
     }
 }
