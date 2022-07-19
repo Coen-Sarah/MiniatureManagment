@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import static com.example.inventorycapstone.doa.database.Query.getResult;
 import static com.example.inventorycapstone.doa.database.Query.makeQuery;
@@ -81,9 +80,9 @@ public class MiniatureDAO {
                     miniatureResults.getString(SUPPLIER),
                     miniatureResults.getBigDecimal(WHOLESALE),
                     miniatureResults.getBigDecimal(RETAIL_MARKUP),
-                    miniatureResults.getInt(CURRENT_STOCK),
                     miniatureResults.getInt(LOW_STOCK),
-                    miniatureResults.getInt(OVER_STOCK));
+                    miniatureResults.getInt(OVER_STOCK),
+                    miniatureResults.getInt(CURRENT_STOCK));
             return miniature;
 
         } catch (SQLException e) {
@@ -110,9 +109,9 @@ public class MiniatureDAO {
                         miniatureResults.getString(SUPPLIER),
                         miniatureResults.getBigDecimal(WHOLESALE),
                         miniatureResults.getBigDecimal(RETAIL_MARKUP),
-                        miniatureResults.getInt(CURRENT_STOCK),
                         miniatureResults.getInt(LOW_STOCK),
-                        miniatureResults.getInt(OVER_STOCK));
+                        miniatureResults.getInt(OVER_STOCK),
+                        miniatureResults.getInt(CURRENT_STOCK));
                 allMiniatures.add(miniature);
             }
 

@@ -6,13 +6,6 @@ import com.example.inventorycapstone.doa.model.SetDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.util.Pair;
-
-import java.time.*;
-import java.time.temporal.IsoFields;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
-import java.util.*;
 
 public class Inventory {
 
@@ -34,7 +27,7 @@ public class Inventory {
     public static void addMiniature(Miniature newMiniature){
         allMiniatures.add(newMiniature);
     }
-
+    
     public static void addSet(MiniatureSet newSet){
         allSets.add(newSet);
     }
@@ -42,7 +35,7 @@ public class Inventory {
     public static void addCourse(Course newCourse){
         allCourses.add(newCourse);
     }
-
+    
     public static Miniature lookupMiniature(int miniatureId){
         for(int i = 0; i < allMiniatures.size(); i++){
             if (allMiniatures.get(i).getId() == miniatureId){
@@ -51,7 +44,7 @@ public class Inventory {
         }
         return null;
     }
-
+    
     public static MiniatureSet lookupSet(int setId){
         for(int i = 0; i < allSets.size(); i++){
             if (allSets.get(i).getId() == setId){
@@ -75,7 +68,7 @@ public class Inventory {
         FilteredList<Miniature> miniatureFilteredList = allMiniatures.filtered(miniature -> miniature.getName().toLowerCase().contains(miniatureName.toLowerCase()));
         return miniatureFilteredList;
     }
-
+    
     public static ObservableList<MiniatureSet> lookupSet(String setName){
         FilteredList<MiniatureSet> setFilteredList = allSets.filtered(set-> set.getName().toLowerCase().contains(setName.toLowerCase()));
         return setFilteredList;
@@ -85,51 +78,7 @@ public class Inventory {
         FilteredList<Course> courseFilteredList = allCourses.filtered(course-> course.getName().toLowerCase().contains(courseName.toLowerCase()));
         return courseFilteredList;
     }
-
-    public static ObservableList<Miniature> getLowStockMiniatures(){
-        FilteredList<Miniature> miniatureFilteredList = allMiniatures.filtered(miniature -> miniature.getCurrentStock() <= miniature.getLowStockAmount() );
-        return miniatureFilteredList;
-    }
-
-    public static ObservableList<MiniatureSet> getLowStockSets(){
-        FilteredList<MiniatureSet> setFilteredList = allSets.filtered(set -> set.getCurrentStock() <= set.getLowStockAmount() );
-        return setFilteredList;
-    }
-
-    public static ObservableList<Miniature> getOverStockMiniatures(){
-        FilteredList<Miniature> miniatureFilteredList = allMiniatures.filtered(miniature -> miniature.getCurrentStock() >= miniature.getOverStockAmount() );
-        return miniatureFilteredList;
-    }
-
-    public static ObservableList<MiniatureSet> getOverStockSets(){
-        FilteredList<MiniatureSet> setFilteredList = allSets.filtered(set -> set.getCurrentStock() >= set.getOverStockAmount() );
-        return setFilteredList;
-    }
-
-    public static Pair<LocalDateTime,ObservableList<Course>> getUpcomingCourses(){
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
-        int week = now.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);;
-        FilteredList<Course> courseFilteredList = allCourses.filtered(course -> {
-            return (course.getStartTime().atZone(ZoneId.systemDefault()).get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) == week);
-        });
-        return new Pair<LocalDateTime, ObservableList<Course>>(now.with(DayOfWeek.MONDAY).toLocalDateTime(), courseFilteredList);
-    }
-
-    public static ObservableList<Course> getCoursesByDate(){
-        return allCourses.sorted(new Comparator<Course>() {
-            @Override
-            public int compare(Course courseOne, Course courseTwo) {
-                if(courseOne.getStartTime().isBefore(courseTwo.getStartTime())) {
-                    return -1;
-                } else if (courseOne.getStartTime().isAfter(courseTwo.getStartTime())){
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        });
-    }
-
+    
     public static void updateMiniature(Miniature selectedMiniature){
         int index = 0;
         for(int i = 0; i < allMiniatures.size(); i++){
@@ -139,7 +88,7 @@ public class Inventory {
         }
         allMiniatures.set(index, selectedMiniature);
     }
-
+    
     public static void updateSet(MiniatureSet selectedSet){
 
         int index = 0;
@@ -160,11 +109,11 @@ public class Inventory {
         }
         allCourses.set(index, selectedCourse);
     }
-
+    
     public static boolean deleteMiniature(Miniature selectedMiniature){
         return allMiniatures.remove(selectedMiniature);
     }
-
+    
     public static boolean deleteSet(MiniatureSet selectedSet){
         return allSets.remove(selectedSet);
     }
@@ -203,15 +152,6 @@ public class Inventory {
             allNeededMiniatures.add(new NeededMiniature(allMiniatures.get(i), 0));
         }
         return allNeededMiniatures;
-    }
-
-    public static CustomSet getEmptySet(){
-        Miniature miniature = new Miniature();
-        miniature.setName("No Miniatures Added");
-        NeededMiniature neededMiniature = new NeededMiniature(miniature, 0);
-        CustomSet empty = new CustomSet();
-        empty.addMiniature(neededMiniature);
-        return empty;
     }
 
 }

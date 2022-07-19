@@ -61,7 +61,7 @@
       </TableView>
       <Label text="Retail Markup (%)" GridPane.rowIndex="12" />
       <Label text="Wholesale Price" GridPane.rowIndex="11" />
-      <TextField fx:id="setWholeSalePrice" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+      <TextField fx:id="classWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="11" />
       <TextField fx:id="setRetail" GridPane.columnIndex="1" GridPane.rowIndex="12" />
       <VBox fx:id="miniEditTable" prefHeight="58.0" prefWidth="340.0" GridPane.columnSpan="2" GridPane.rowIndex="10" />
       <VBox fx:id="miniEditLabel" prefHeight="58.0" prefWidth="340.0" GridPane.columnSpan="2" GridPane.rowIndex="9" />

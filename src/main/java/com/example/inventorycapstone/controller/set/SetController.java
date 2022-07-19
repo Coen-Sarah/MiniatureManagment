@@ -66,7 +66,6 @@ public class SetController {
                         }
                     }
                 });
-        setInventoryId.setDisable(true);
     }
 
     protected void cancelSet() {

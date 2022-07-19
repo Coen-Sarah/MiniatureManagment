@@ -5,13 +5,9 @@ import com.example.inventorycapstone.doa.model.SetDAO;
 import com.example.inventorycapstone.model.Inventory;
 import com.example.inventorycapstone.model.MiniatureSet;
 import com.example.inventorycapstone.model.OfficialSet;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
-
-import static com.example.inventorycapstone.util.TextFieldChecker.*;
-import static com.example.inventorycapstone.util.TextFieldChecker.checkValidNumber;
 
 public class OfficialSetController extends SetController {
 
@@ -56,44 +52,29 @@ public class OfficialSetController extends SetController {
 
     protected void saveSet() {
 
-        if(checkAllFields()) {
-            if (activeSet == null) {
-                activeSet = new OfficialSet();
-            }
-
-            activeSet.setName(setName.getText());
-            activeSet.setBrand(setBrand.getText());
-            activeSet.setSupplier(setSupplier.getText());
-            activeSet.setWholeSalePrice(new BigDecimal(setWholesale.getText()));
-            activeSet.setRetailMarkup(new BigDecimal(setRetail.getText()));
-            activeSet.setCurrentStock(Integer.parseInt(setStock.getText()));
-            activeSet.setLowStockAmount(Integer.parseInt(setLowStock.getText()));
-            activeSet.setOverStockAmount(Integer.parseInt(setOverStock.getText()));
-
-            if (activeSet.getId() > 0) {
-                activeSet.setId(Integer.valueOf(setInventoryId.getText()));
-                Inventory.updateSet(activeSet);
-                SetDAO.update(activeSet);
-            } else {
-                activeSet.setId(SetDAO.add(activeSet));
-                Inventory.addSet(activeSet);
-            }
-            disableEdit();
-        } else {
-            Alert invalidInputAlert = new Alert(Alert.AlertType.ERROR,"Please verify the inserted data.");
-            invalidInputAlert.show();
+        if(activeSet == null) {
+            activeSet = new OfficialSet();
         }
-    }
+        
+        activeSet.setName(setName.getText());
+        activeSet.setBrand(setBrand.getText());
+        activeSet.setSupplier(setSupplier.getText());
+        activeSet.setWholeSalePrice( new BigDecimal(setWholesale.getText()));
+        activeSet.setRetailMarkup(new BigDecimal(setRetail.getText()));
+        activeSet.setCurrentStock(Integer.parseInt(setStock.getText()));
+        activeSet.setLowStockAmount(Integer.parseInt(setLowStock.getText()));
+        activeSet.setOverStockAmount(Integer.parseInt(setOverStock.getText()));
 
-    private boolean checkAllFields() {
-        return  checkValidText(setName) &&
-                checkValidText(setBrand) &&
-                checkValidText(setSupplier) &&
-                checkValidDecimal(setWholesale) &&
-                checkValidDecimal(setRetail) &&
-                checkValidNumber(setStock) &&
-                checkValidNumber(setLowStock) &&
-                checkValidNumber(setOverStock);
+        if(activeSet.getId() > 0) {
+            activeSet.setId(Integer.valueOf(setInventoryId.getText()));
+            Inventory.updateSet(activeSet);
+            SetDAO.update(activeSet);
+        } else {
+            activeSet.setId(SetDAO.add(activeSet));
+            Inventory.addSet(activeSet);
+        }
+        disableEdit();
+
     }
 
     @Override

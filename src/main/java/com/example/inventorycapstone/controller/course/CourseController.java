@@ -20,14 +20,15 @@ import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.function.Consumer;
-
-import static com.example.inventorycapstone.util.TextFieldChecker.*;
-import static com.example.inventorycapstone.util.TextFieldChecker.checkValidNumber;
 
 public class CourseController {
 
@@ -45,7 +46,7 @@ public class CourseController {
     public Spinner<Integer> courseTimeMinutes;
     public Spinner<String> courseTimeAP;
     public Spinner<Integer> courseAttendees;
-    public TextField courseWholeSale;
+    public TextField courseWholesale;
     public TextField courseRetail;
 
     public Label courseAllMiniLabel;
@@ -63,13 +64,11 @@ public class CourseController {
     public TableColumn<NeededMiniature, NeededMiniature> courseAllMiniCount;
 
     private Course activeCourse = new Course();
-    private CustomSet emptySet = new CustomSet();
 
     private ObservableList<String> AP = FXCollections.observableArrayList("AM", "PM");
     private ObservableList<Employee> allEmployees = FXCollections.observableArrayList();
 
     public void initialize(){
-        emptySet.getNeededMiniatures().add(new NeededMiniature(MainController.getEmptyMiniature(), 0));
         courseLocation.setItems(LocationDAO.getAll());
         courseLocation.setOnAction(event->{
             setEmployeeItems();
@@ -120,61 +119,45 @@ public class CourseController {
         courseTimeHours.getValueFactory().setValue(hour);
         courseTimeMinutes.getValueFactory().setValue(minute);
         courseAttendees.getValueFactory().setValue(activeCourse.getNumberOfAttendees());
-        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
         courseRetail.setText(String.valueOf(activeCourse.getCourseSet().getRetailMarkup()));
 
     }
 
     private void saveCourse() {
 
-        if(checkAllFields()){
-            if(activeCourse == null) {
-                activeCourse = new Course();
-            }
-            int hour = courseTimeHours.getValue();
-            int minute = courseTimeMinutes.getValue();
-            if (courseTimeAP.getValue().equals("PM")){
-                hour += 12;
-            }
-
-            activeCourse.setName(courseName.getText());
-            activeCourse.setStartTime(courseDate.getValue().atTime(hour,minute));
-            activeCourse.setLocationId(courseLocation.getSelectionModel().getSelectedItem().getId());
-            activeCourse.setManagingEmployeeId(courseEmployee.getSelectionModel().getSelectedItem().getId());
-            activeCourse.setNumberOfAttendees(courseAttendees.getValue());
-
-            activeCourse.getCourseSet().setName(courseName.getText() + " Class Set");
-            activeCourse.getCourseSet().setRetailMarkup(new BigDecimal(courseRetail.getText()));
-
-            if(activeCourse.getId() > 0) {
-                activeCourse.setId(Integer.valueOf(courseId.getText()));
-                Inventory.updateCourse(activeCourse);
-                CourseDAO.update(activeCourse);
-            } else {
-                activeCourse.setId(CourseDAO.add(activeCourse));
-                Inventory.addCourse(activeCourse);
-
-            }
-            disableEdit();
-        } else {
-            Alert invalidInputAlert = new Alert(Alert.AlertType.ERROR, "Please verify the inserted data.");
-            invalidInputAlert.show();
+        if(activeCourse == null) {
+            activeCourse = new Course();
         }
-    }
+        int hour = courseTimeHours.getValue();
+        int minute = courseTimeMinutes.getValue();
+        if (courseTimeAP.getValue().equals("PM")){
+            hour += 12;
+        }
 
-    private boolean checkAllFields() {
-        return  checkValidText(courseName) &&
-                checkValidDecimal(courseRetail);
+        activeCourse.setName(courseName.getText());
+        activeCourse.setStartTime(courseDate.getValue().atTime(hour,minute));
+        activeCourse.setLocationId(courseLocation.getSelectionModel().getSelectedItem().getId());
+        activeCourse.setManagingEmployeeId(courseEmployee.getSelectionModel().getSelectedItem().getId());
+        activeCourse.setNumberOfAttendees(courseAttendees.getValue());
+
+        activeCourse.getCourseSet().setName(courseName.getText() + " Class Set");
+        activeCourse.getCourseSet().setRetailMarkup(new BigDecimal(courseRetail.getText()));
+
+        if(activeCourse.getId() > 0) {
+            activeCourse.setId(Integer.valueOf(courseId.getText()));
+            Inventory.updateCourse(activeCourse);
+            CourseDAO.update(activeCourse);
+        } else {
+            activeCourse.setId(CourseDAO.add(activeCourse));
+            Inventory.addCourse(activeCourse);
+
+        }
+        disableEdit();
     }
 
     private void initializeNeededMiniaturesTable(){
 
-        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
-            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
-        } else {
-            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
-        }
-
+        courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
         courseMiniId.setCellValueFactory(
                 (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
                         cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
@@ -218,8 +201,9 @@ public class CourseController {
 
                 setGraphic(addButton);
                 addButton.setOnAction(event -> {
+                    System.out.println(miniature.getCount());
                     activeCourse.getCourseSet().addMiniature(miniature);
-                    updateTable();
+                    System.out.println(activeCourse.getCourseSet().getNeededMiniatures().size());
                 });
             }
         });
@@ -280,8 +264,9 @@ public class CourseController {
 
                 setGraphic(removeButton);
                 removeButton.setOnAction(event -> {
+                    System.out.println(miniature.getCount());
                     activeCourse.getCourseSet().removeMiniature(miniature);
-                    updateTable();
+                    System.out.println(activeCourse.getCourseSet().getNeededMiniatures().size());
                 });
             }
         });
@@ -295,20 +280,8 @@ public class CourseController {
         detailsGrid.add( courseAllMiniTable, 0,12,2,1);
     }
 
-    private void updateTable() {
-        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
-            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
-        } else {
-            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
-        }
-        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
-        courseMiniTable.refresh();
-    }
-
-
     private void cancelCourse() {
         if(!courseId.getText().isEmpty()) {
-            courseMiniTable.setItems(CourseDAO.get(activeCourse.getId()).getCourseSet().getNeededMiniatures());
             fillCourseFields();
             disableEdit();
         } else {
@@ -348,18 +321,12 @@ public class CourseController {
                 new Consumer<Node>(){
                     @Override
                     public void accept(Node node) {
-                        if (node instanceof TextField ||
-                            node instanceof Spinner ||
-                            node instanceof ComboBox ||
-                            node instanceof DatePicker){
-                            node.setDisable(true);
+                        if (node instanceof TextField){
+                            TextField field = (TextField) node;
+                            field.setDisable(true);
                         }
                     }
                 });
-        courseTimeHours.setDisable(true);
-        courseTimeMinutes.setDisable(true);
-        courseTimeAP.setDisable(true);
-
     }
 
     private void enableEdit(){
@@ -379,29 +346,12 @@ public class CourseController {
                 new Consumer<Node>(){
                     @Override
                     public void accept(Node node) {
-                        if (node instanceof TextField ||
-                            node instanceof Spinner ||
-                            node instanceof ComboBox ||
-                            node instanceof DatePicker) {
-                            if (node instanceof HBox){
-                                ((HBox) node).getChildren().forEach(
-                                    new Consumer<Node>() {
-                                        @Override
-                                        public void accept(Node innerNode) {
-                                            innerNode.setDisable(false);
-                                        }
-                                    }
-                                );
-                            }
-                            node.setDisable(false);
+                        if (node instanceof TextField){
+                            TextField field = (TextField) node;
+                            field.setDisable(false);
                         }
                     }
                 });
-        courseTimeHours.setDisable(false);
-        courseTimeMinutes.setDisable(false);
-        courseTimeAP.setDisable(false);
-
-        courseId.setDisable(true);
     }
 
 }

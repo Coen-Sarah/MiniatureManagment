@@ -181,28 +181,26 @@ public class SetDAO {
 
     private static CustomSet getCustomSetDetails(int setId) throws SQLException {
         String getCustomSetQuery =
-                "SELECT * FROM " + TABLE_NAME +
-                        " LEFT JOIN " + CUSTOM_SET_TABLE + " ON " +  CUSTOM_SET_TABLE + "." + ID + " = " + TABLE_NAME + "." + ID +
-                        " WHERE " + TABLE_NAME + "." + ID + " = " + setId + ";";
+                "SELECT * FROM " + TABLE_NAME + ", " + CUSTOM_SET_TABLE  +
+                        " WHERE " + CUSTOM_SET_TABLE + "." + ID + " = " + TABLE_NAME + "." + ID +
+                        " AND " + TABLE_NAME + "." + ID + " = " + setId + ";";
 
         makeQuery(getCustomSetQuery);
         ResultSet setResults = getResult();
 
         setResults.next();
 
+        CustomSet set = new CustomSet(
+                setResults.getInt(ID),
+                setResults.getString(NAME),
+                setResults.getBigDecimal(RETAIL_MARKUP),
+                setResults.getInt(CURRENT_STOCK),
+                setResults.getInt(LOW_STOCK),
+                setResults.getInt(OVER_STOCK));
 
-            CustomSet set = new CustomSet(
-                    setResults.getInt(ID),
-                    setResults.getString(NAME),
-                    setResults.getBigDecimal(RETAIL_MARKUP),
-                    setResults.getInt(CURRENT_STOCK),
-                    setResults.getInt(LOW_STOCK),
-                    setResults.getInt(OVER_STOCK));
 
         do{
-            if(setResults.getInt(COUNT) != 0){
-                set.addMiniature(new NeededMiniature(MiniatureDAO.get(setResults.getInt(MINIATURE_ID)), setResults.getInt(COUNT)));
-            }
+            set.addMiniature( new NeededMiniature(MiniatureDAO.get(setResults.getInt(MINIATURE_ID)), setResults.getInt(COUNT)));
         } while (setResults.next());
 
 

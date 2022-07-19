@@ -32,8 +32,6 @@ public class LoginController {
     public TextField usernameInput;
     public TextField passwordInput;
 
-    public static String activeUser;
-
     public LoginController() {
     }
 
@@ -86,16 +84,11 @@ public class LoginController {
     }
 
     private void toMain(ActionEvent event) throws IOException {
-        activeUser = usernameInput.getText();
         Parent root = FXMLLoader.load(this.getClass().getResource("/com/example/inventorycapstone/main_menu.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static String getActiveUser(){
-        return activeUser;
     }
 
 }

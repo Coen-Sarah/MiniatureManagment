@@ -21,12 +21,12 @@ import java.util.Date;
 import java.util.Map;
 
 import static com.example.inventorycapstone.doa.database.DBConnection.makeConnection;
+import static com.example.inventorycapstone.doa.database.DBTable.insertCurrentInventory;
 import static javafx.application.Platform.exit;
 
 public class StartApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        //TODO RESET TO LOGIN
         FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("main_menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Miniature Management");
