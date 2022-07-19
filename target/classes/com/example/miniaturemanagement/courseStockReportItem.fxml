@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<TitledPane fx:id="classReportItem" animated="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="450.0" text="ID: _CLASS ID_ | _CLASS NAME_ | Attendees: _ATTENDEE COUNT_ | _STOCK FLAG_" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.course.CourseStockReportController">
+  <content>
+      <GridPane fx:id="detailsGrid">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="70.39999809265137" minHeight="10.0" prefHeight="63.20001640319824" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="70.39999809265137" minHeight="10.0" prefHeight="63.20001640319824" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="338.3999938964844" minHeight="10.0" prefHeight="291.19998359680176" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TableView fx:id="reportStockTable" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+              <columns>
+                  <TableColumn fx:id="reportStockFlag" prefWidth="28.00000113248825" />
+                <TableColumn fx:id="reportStockId" prefWidth="59.9999942779541" text="ID" />
+                <TableColumn fx:id="reportStockName" maxWidth="200.0" prefWidth="124.79999542236328" text="Miniature Name" />
+                  <TableColumn fx:id="reportStockCurrent" maxWidth="125.59999084472656" prefWidth="84.80000305175781" text="Current&#10;Stock" />
+                  <TableColumn fx:id="reportStockNeeded" maxWidth="116.0" prefWidth="71.2000732421875" text="Needed&#10;Stock" />
+                  <TableColumn fx:id="reportStockCount" maxWidth="110.40008544921875" prefWidth="79.199951171875" text="Count&#10;(Per Person)" />
+              </columns>
+            </TableView>
+            <Label fx:id="courseAttendees" prefHeight="43.0" prefWidth="345.0" text="Label" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label fx:id="courseLocation" prefHeight="43.0" prefWidth="374.0" text="Label" GridPane.columnSpan="2" />
+            <Label fx:id="courseEmployee" prefHeight="43.0" prefWidth="390.0" text="Label" GridPane.columnIndex="2" GridPane.columnSpan="2" />
+            <Label fx:id="courseDate" prefHeight="43.0" prefWidth="270.0" text="Label" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+  </content>
+</TitledPane>

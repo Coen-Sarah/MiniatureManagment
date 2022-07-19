@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="detailsGrid" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.course.CourseController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.39996337890625" minWidth="10.0" prefWidth="167.5999755859375" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.20000610351565" minWidth="10.0" prefWidth="170.00002441406252" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="37.60000610351561" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Label text="Class Details" GridPane.rowIndex="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label text="Class Name" GridPane.rowIndex="2" />
+      <Label text="Class ID" GridPane.rowIndex="3" />
+      <Label text="Retail Markup (%)" GridPane.rowIndex="14" />
+      <Label text="Wholesale Price" GridPane.rowIndex="13" />
+      <Label text="Location" GridPane.rowIndex="4" />
+      <Button fx:id="courseChange" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS" />
+      <Button fx:id="courseDiscard" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS" />
+      <TextField fx:id="courseName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="courseId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="courseRetail" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+      <TextField fx:id="courseWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+      <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <children>
+            <ComboBox fx:id="courseLocation" prefHeight="26.0" prefWidth="207.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <Label text="Attendee Count" GridPane.rowIndex="8" />
+      <Label text="Date" GridPane.rowIndex="6" />
+      <Label text="Managing Employee" GridPane.rowIndex="5" />
+      <ComboBox fx:id="courseEmployee" prefHeight="26.0" prefWidth="207.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <DatePicker fx:id="courseDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Spinner fx:id="courseAttendees" prefHeight="26.0" prefWidth="245.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <TableView fx:id="courseMiniTable" prefHeight="82.0" prefWidth="305.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
+         <columns>
+            <TableColumn fx:id="courseMiniId" prefWidth="41.599913597106934" text="ID" />
+            <TableColumn fx:id="courseMiniName" prefWidth="135.1999740600586" text="Name" />
+            <TableColumn fx:id="courseMiniPer" prefWidth="80.00006103515625" text="Per Person" />
+            <TableColumn fx:id="courseMiniTotal" prefWidth="84.00007629394531" text="Total Count" />
+         </columns>
+      </TableView>
+      <Label text="Included Miniatures" GridPane.rowIndex="9" />
+      <Label text="Time" GridPane.rowIndex="7" />
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <children>
+            <Spinner fx:id="courseTimeHours" prefHeight="26.0" prefWidth="75.0" />
+            <Label text=":">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Spinner fx:id="courseTimeMinutes" prefHeight="26.0" prefWidth="75.0" />
+            <Spinner fx:id="courseTimeAP" prefHeight="26.0" prefWidth="75.0" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>
