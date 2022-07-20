@@ -19,9 +19,6 @@ import static com.example.miniaturemanagement.util.TextFieldChecker.*;
 
 public class CustomSetController extends SetController {
 
-    public VBox miniEditLabel;
-    public VBox miniEditTable;
-
     public Label allMiniLabel;
     public TableView allMiniTable;
     public TableColumn<NeededMiniature, NeededMiniature> allMiniAdd;
@@ -50,12 +47,14 @@ public class CustomSetController extends SetController {
         if (activeSet != null) {
             fillSetFields();
             disableEdit();
+            MainController.clearActiveSet();
+            initializeNeededMiniaturesTable();
+            initializeAllMiniatureTable();
         } else {
             activeSet = new CustomSet();
             enableEdit();
         }
-        initializeNeededMiniaturesTable();
-        MainController.clearActiveSet();
+
     }
 
     protected void fillSetFields(){
@@ -67,7 +66,6 @@ public class CustomSetController extends SetController {
         setLowStock.setText(String.valueOf(activeSet.getLowStockAmount()));
         setOverStock.setText(String.valueOf(activeSet.getOverStockAmount()));
     }
-
 
     @Override
     protected void saveSet() {
@@ -110,6 +108,12 @@ public class CustomSetController extends SetController {
 
     private void initializeNeededMiniaturesTable(){
 
+        setMiniTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        setMiniName.minWidthProperty().bind(
+                setMiniTable.widthProperty().multiply(0.4));
+
+        setMiniRemove = new TableColumn<>();
+
         if(activeSet.getNeededMiniatures().size() == 0) {
             setMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
         } else {
@@ -139,109 +143,10 @@ public class CustomSetController extends SetController {
                 setGraphic(count);
             }
         });
-    }
-
-    private void addAllMiniatureTable(){
-
-        allMiniLabel = new Label("All Miniatures");
-        allMiniTable = new TableView();
-        allMiniAdd = new TableColumn();
-        allMiniId = new TableColumn();
-        allMiniName = new TableColumn();
-        allMiniCount = new TableColumn();
-
-        allMiniTable.setItems(Inventory.getAllNeededMiniatures());
-
-        allMiniAdd = new TableColumn<>("Add Mini");
-        allMiniAdd.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        allMiniAdd.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Button addButton = new Button("Add");
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-
-                setGraphic(addButton);
-                addButton.setOnAction(event -> {
-                    System.out.println(miniature.getCount());
-                    activeSet.addMiniature(miniature);
-                    setMiniTable.refresh();
-                    System.out.println(activeSet.getNeededMiniatures().size());
-                    updateTable();
-                });
-            }
-        });
-        allMiniId.setText("ID");
-        allMiniId.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
-                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
-        allMiniName.setText("Name");
-        allMiniName.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
-                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
-        allMiniCount.setText("Count");
-
-        allMiniCount.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        allMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Spinner count = new Spinner();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0));
-                count.valueProperty().addListener((obs, oldValue, newValue) -> {
-                    miniature.setCount((Integer) newValue);
-                    updateTable();
-                    return;
-                });
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-                setGraphic(count);
-            }
-        });
-
-        allMiniTable.getColumns().addAll(
-                allMiniAdd,allMiniId, allMiniName, allMiniCount);
-
-        setMiniRemove = new TableColumn<>();
-        setMiniRemove.setText("Remove");
 
         setMiniRemove.setCellValueFactory(
                 param -> new ReadOnlyObjectWrapper<>(param.getValue())
         );
-
-        setMiniCount.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        setMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Spinner count = new Spinner();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(miniature.getCount(),100,0));
-                count.valueProperty().addListener((obs, oldValue, newValue) -> {
-                    miniature.setCount((Integer) newValue);
-                });
-                setGraphic(count);
-
-            }
-        });
 
         setMiniRemove.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
             private final Button removeButton = new Button("Remove");
@@ -265,23 +170,125 @@ public class CustomSetController extends SetController {
                 });
             }
         });
-
-        setMiniTable.getColumns().add(setMiniRemove);
-
-        miniEditLabel.setMaxHeight(1000);
-        miniEditTable.setMaxHeight(1000);
-
-        miniEditLabel.getChildren().add(allMiniLabel);
-        miniEditTable.getChildren().add(allMiniTable);
     }
-    private void updateTable() {
-        if(activeSet.getNeededMiniatures().size() == 0) {
-            setMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
-        } else {
-            setMiniTable.setItems(activeSet.getNeededMiniatures());
+
+    private void initializeAllMiniatureTable(){
+
+        allMiniLabel = new Label("All Miniatures");
+        allMiniTable = new TableView();
+        allMiniAdd = new TableColumn();
+        allMiniId = new TableColumn();
+        allMiniName = new TableColumn();
+        allMiniCount = new TableColumn();
+
+        allMiniTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        allMiniName.minWidthProperty().bind(
+                allMiniTable.widthProperty().multiply(0.4));
+
+        allMiniTable.setItems(Inventory.getRemainingMiniatures(activeSet));
+
+        allMiniAdd = new TableColumn<>();
+        allMiniAdd.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        allMiniAdd.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Button addButton = new Button("Add");
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(addButton);
+                addButton.setOnAction(event -> {
+                    if(miniature.getCount() > 0) {
+                        System.out.println(miniature.getCount());
+                        activeSet.addMiniature(miniature);
+                        setMiniTable.refresh();
+                        System.out.println(activeSet.getNeededMiniatures().size());
+                        updateTable();
+                    }
+                });
+            }
+        });
+        allMiniId.setText("ID");
+        allMiniId.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
+                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
+        allMiniName.setText("Name");
+        allMiniName.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
+                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
+        allMiniCount.setText("Count");
+
+        allMiniCount.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        allMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Spinner count = new Spinner();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0));
+                count.valueProperty().addListener((obs, oldValue, newValue) -> {
+                    miniature.setCount((Integer) newValue);
+                });
+                setGraphic(count);
+
+            }
+        });
+
+        allMiniTable.getColumns().addAll(
+                allMiniAdd, allMiniCount, allMiniId, allMiniName);
+
+    }
+
+    private void addAllMiniatureTable(){
+
+        if(allMiniLabel == null){
+            initializeNeededMiniaturesTable();
+            initializeAllMiniatureTable();
         }
-        setWholeSalePrice.setText(String.valueOf(activeSet.getWholesalePrice()));
-        setMiniTable.refresh();
+
+        setMiniCount.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        setMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Spinner count = new Spinner();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(miniature.getCount(),100,0));
+                count.valueProperty().addListener((obs, oldValue, newValue) -> {
+                    miniature.setCount((Integer) newValue);
+                });
+                setGraphic(count);
+
+            }
+        });
+
+        setMiniTable.getColumns().add(0, setMiniRemove);
+
+        detailsGrid.getRowConstraints().get(9).setMaxHeight(30);
+        detailsGrid.getRowConstraints().get(10).setMaxHeight(150);
+
+        detailsGrid.add( allMiniLabel, 0,9,2,1);
+        detailsGrid.add( allMiniTable, 0,10,2,1);
+
     }
 
     private void removeAllMiniaturesTable(){
@@ -305,16 +312,33 @@ public class CustomSetController extends SetController {
         });
 
         setMiniTable.getColumns().remove(setMiniRemove);
-        miniEditLabel.getChildren().clear();
-        miniEditTable.getChildren().clear();
-        miniEditLabel.setMaxHeight(0);
-        miniEditTable.setMaxHeight(0);
+        setMiniName.minWidthProperty().bind(
+                setMiniTable.widthProperty().multiply(0.6));
+        allMiniLabel.setVisible(false);
+        allMiniTable.setVisible(false);
+        detailsGrid.getRowConstraints().get(9).setMaxHeight(5);
+        detailsGrid.getRowConstraints().get(10).setMaxHeight(5);
+
+    }
+
+    private void updateTable() {
+        if(activeSet.getNeededMiniatures().size() == 0) {
+            setMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
+        } else {
+            setMiniTable.setItems(activeSet.getNeededMiniatures());
+        }
+        allMiniTable.setItems(Inventory.getRemainingMiniatures(activeSet));
+        setWholeSalePrice.setText(String.valueOf(activeSet.getWholesalePrice()));
+        setMiniTable.refresh();
     }
 
     @Override
     protected void cancelSet(){
-        setMiniTable.setItems(((CustomSet)SetDAO.get(activeSet.getId())).getNeededMiniatures());
+        if(activeSet.getId() != 0) {
+            setMiniTable.setItems(((CustomSet) SetDAO.get(activeSet.getId())).getNeededMiniatures());
+        }
         super.cancelSet();
+        removeAllMiniaturesTable();
     }
 
     @Override
@@ -328,12 +352,11 @@ public class CustomSetController extends SetController {
     protected void enableEdit(){
         super.enableEdit();
         addAllMiniatureTable();
+        setWholeSalePrice.setDisable(true);
     }
 
     @Override
     protected void disableEdit(){
         super.disableEdit();
-        removeAllMiniaturesTable();
     }
-
 }

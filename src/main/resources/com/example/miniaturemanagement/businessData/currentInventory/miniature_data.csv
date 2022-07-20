@@ -1,10 +1,10 @@
 id,name,brand,supplier,wholesalePrice,retailMarkup,currentStock,lowStockAmount,overStockAmount
-1,Rouge In Rogue,Sword Witches Publishing,Indie Co.,14.99,0.3,5,2,10
-2,Wiley Weather Witch,Wizard's Cauldron Games,Randel LLC,5.99,0.5,15,10,20
-3,Shield Siblings Two Pack,Sword Witches Publishing,Indie Co.,21.99,0.3,3,1,6
-4,Weapon Random Pack,Swords -N- Things Tabletop Gaming,Magic Maker INC,3.99,0.4,20,10,25
-5,Magic Wizard Lizard,Wizard's Cauldron Games,Magic Maker INC,6.99,0.5,7,10,20
-6,Magical Dueling Hall Build,Dungeon Diving Miniatures,Indie Co.,45.99,0.4,8,2,7
-7,Bar-Room Brawl and Inn,Dungeon Diving Miniatures,Indie Co.,65.99,0.4,1,2,7
-8,All-Terrain Troubles: Dodgy Docks,Landmark Miniatures,Landmark Miniatures,25.99,0.4,10,3,9
-9,All-terrain Troubles: Caves and Cliffs,Landmark Miniatures,Landmark Miniatures,25.99,0.4,5,3,9
+1,Rouge In Rogue,Sword Witches Publishing,Indie Co.,14.99,0.3,5,15,40
+2,Wiley Weather Witch,Wizard's Cauldron Games,Randel LLC,5.99,0.5,64,15,50
+3,Shield Siblings Two Pack,Sword Witches Publishing,Indie Co.,21.99,0.3,5,15,50
+4,Weapon Random Pack,Swords -N- Things Tabletop Gaming,Magic Maker INC,3.99,0.4,48,25,75
+5,Magic Wizard Lizard,Wizard's Cauldron Games,Magic Maker INC,6.99,0.5,37,20,50
+6,Magical Dueling Hall Build,Dungeon Diving Miniatures,Indie Co.,45.99,0.4,8,5,15
+7,Bar-Room Brawl and Inn,Dungeon Diving Miniatures,Indie Co.,65.99,0.4,5,5,20
+8,All-Terrain Troubles: Dodgy Docks,Landmark Miniatures,Landmark Miniatures,25.99,0.4,17,10,25
+9,All-terrain Troubles: Caves and Cliffs,Landmark Miniatures,Landmark Miniatures,25.99,0.4,9,10,25

@@ -68,6 +68,7 @@ public class CourseController {
     private ObservableList<Employee> allEmployees = FXCollections.observableArrayList();
 
     public void initialize(){
+
         emptySet.getNeededMiniatures().add(new NeededMiniature(MainController.getEmptyMiniature(), 0));
         courseLocation.setItems(LocationDAO.getAll());
         courseLocation.setOnAction(event->{
@@ -86,12 +87,14 @@ public class CourseController {
             disableEdit();
             setEmployeeItems();
             MainController.clearActiveCourse();
+            initializeNeededMiniaturesTable();
         } else {
-            enableEdit();
             activeCourse = new Course();
             activeCourse.setCourseSet(new CustomSet());
+            enableEdit();
         }
-        initializeNeededMiniaturesTable();
+
+
     }
 
     private void setEmployeeItems() {
@@ -101,27 +104,238 @@ public class CourseController {
         courseEmployee.setItems(selectedEmployees);
     }
 
-    private void fillCourseFields() {
+//TABLE CREATION METHODS
 
-        courseName.setText(activeCourse.getName());
-        courseId.setText(String.valueOf(activeCourse.getId()));
-        courseLocation.setValue(LocationDAO.get(activeCourse.getLocationId()));
-        courseEmployee.setValue(EmployeeDAO.get(activeCourse.getManagingEmployeeId()));
+    private void initializeNeededMiniaturesTable(){
+        courseMiniRemove = new TableColumn<>();
+        courseMiniTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        courseMiniName.minWidthProperty().bind(
+                courseMiniTable.widthProperty().multiply(0.5));
 
-        courseDate.setValue(activeCourse.getStartTime().toLocalDate());
-
-        int hour = activeCourse.getStartTime().getHour();
-        if (hour > 12){
-            hour -= 12;
-            courseTimeAP.getValueFactory().setValue(AP.get(1));
+        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
+            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
+        } else {
+            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
         }
-        int minute = activeCourse.getStartTime().getMinute();
-        courseTimeHours.getValueFactory().setValue(hour);
-        courseTimeMinutes.getValueFactory().setValue(minute);
-        courseAttendees.getValueFactory().setValue(activeCourse.getNumberOfAttendees());
-        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
-        courseRetail.setText(String.valueOf(activeCourse.getCourseSet().getRetailMarkup()));
 
+        courseMiniId.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
+                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
+        courseMiniName.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
+                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
+        courseMiniPer.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Label count = new Label();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+                count.setText(String.valueOf(miniature.getCount()));
+                setGraphic(count);
+            }
+        });
+        courseMiniTotal.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
+                        cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()*activeCourse.getNumberOfAttendees()));
+
+        courseMiniRemove.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+
+        courseMiniRemove.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Button removeButton = new Button("Remove");
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(removeButton);
+                removeButton.setOnAction(event -> {
+                    activeCourse.getCourseSet().removeMiniature(miniature);
+                    updateTable();
+                });
+            }
+        });
+
+    }
+
+    private void initializeAllMiniaturesTable(){
+
+        courseAllMiniLabel = new Label("All Miniatures");
+        courseAllMiniTable = new TableView();
+        courseAllMiniAdd = new TableColumn<>();
+        courseAllMiniCount = new TableColumn<>("Count");
+        courseAllMiniId = new TableColumn<>("ID");
+        courseAllMiniName = new TableColumn<>("Name");
+
+        courseAllMiniTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        courseAllMiniName.minWidthProperty().bind(
+                courseAllMiniTable.widthProperty().multiply(0.4));
+
+
+        courseAllMiniTable.setItems(Inventory.getRemainingMiniatures(activeCourse.getCourseSet()));
+
+        courseAllMiniAdd.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        courseAllMiniAdd.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Button addButton = new Button("Add");
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(addButton);
+                addButton.setOnAction(event -> {
+                    if(miniature.getCount() > 0) {
+                        activeCourse.getCourseSet().addMiniature(miniature);
+                        updateTable();
+                    }
+                });
+            }
+        });
+        courseAllMiniId.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
+                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
+        courseAllMiniName.setCellValueFactory(
+                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
+                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
+        courseAllMiniCount.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        courseAllMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Spinner count = new Spinner();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0));
+                count.valueProperty().addListener((obs, oldValue, newValue) -> {
+                    miniature.setCount((Integer) newValue);
+                });
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(count);
+
+            }
+        });
+
+        courseAllMiniTable.getColumns().addAll(
+                courseAllMiniAdd, courseAllMiniCount, courseAllMiniId, courseAllMiniName
+        );
+
+        detailsGrid.add( courseAllMiniLabel, 0,11,2,1);
+        detailsGrid.add( courseAllMiniTable, 0,12,2,1);
+
+        courseAllMiniLabel.setVisible(false);
+        courseAllMiniTable.setVisible(false);
+
+    }
+
+// TABLE DISPLAY METHODS
+
+    private void addAllMiniatureTable(){
+
+        if(courseAllMiniLabel == null){
+            initializeAllMiniaturesTable();
+            initializeNeededMiniaturesTable();
+        }
+
+        courseMiniPer.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Spinner count = new Spinner();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(miniature.getCount(),100,0));
+                count.valueProperty().addListener((obs, oldValue, newValue) -> {
+                    miniature.setCount((Integer) newValue);
+                });
+                setGraphic(count);
+
+            }
+        });
+
+        courseMiniTable.getColumns().add(0, courseMiniRemove);
+        courseMiniTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        courseMiniName.minWidthProperty().bind(
+                courseMiniTable.widthProperty().multiply(0.2));
+
+        detailsGrid.getRowConstraints().get(11).setMaxHeight(30);
+        detailsGrid.getRowConstraints().get(12).setMaxHeight(150);
+
+        courseAllMiniLabel.setVisible(true);
+        courseAllMiniTable.setVisible(true);
+
+    }
+
+    private void removeAllMiniaturesTable(){
+
+        courseMiniPer.setCellValueFactory(
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final Label count = new Label();
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+                count.setText(String.valueOf(miniature.getCount()));
+                setGraphic(count);
+            }
+        });
+
+        courseMiniName.minWidthProperty().bind(
+                courseMiniTable.widthProperty().multiply(0.5));
+
+        courseMiniTable.getColumns().remove(courseMiniRemove);
+        courseAllMiniLabel.setVisible(false);
+        courseAllMiniTable.setVisible(false);
+        detailsGrid.getRowConstraints().get(11).setMaxHeight(5);
+        detailsGrid.getRowConstraints().get(12).setMaxHeight(5);
+    }
+
+
+// COURSE CRUD METHODS
+
+    private void updateTable() {
+        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
+            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
+        } else {
+            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
+        }
+        courseAllMiniTable.setItems(Inventory.getRemainingMiniatures(activeCourse.getCourseSet()));
+        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
+        courseMiniTable.refresh();
     }
 
     private void saveCourse() {
@@ -161,212 +375,6 @@ public class CourseController {
         }
     }
 
-    private boolean checkAllFields() {
-        return  checkValidText(courseName) &&
-                checkValidDecimal(courseRetail);
-    }
-
-    private void initializeNeededMiniaturesTable(){
-
-        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
-            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
-        } else {
-            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
-        }
-
-        courseMiniId.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
-                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
-        courseMiniName.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
-                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
-        courseMiniPer.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Label count = new Label();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-                count.setText(String.valueOf(miniature.getCount()));
-                setGraphic(count);
-            }
-        });
-        courseMiniTotal.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
-                        cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()*activeCourse.getNumberOfAttendees()));
-    }
-
-    private void addAllMiniatureTable(){
-
-        courseAllMiniLabel = new Label("CourseAll Miniatures");
-        courseAllMiniTable = new TableView();
-        courseAllMiniAdd = new TableColumn();
-        courseAllMiniId = new TableColumn();
-        courseAllMiniName = new TableColumn();
-        courseAllMiniCount = new TableColumn();
-
-        courseAllMiniTable.setItems(Inventory.getAllNeededMiniatures());
-
-        courseAllMiniAdd = new TableColumn<>("Add Mini");
-        courseAllMiniAdd.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        courseAllMiniAdd.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Button addButton = new Button("Add");
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-
-                setGraphic(addButton);
-                addButton.setOnAction(event -> {
-                    activeCourse.getCourseSet().addMiniature(miniature);
-                    updateTable();
-                });
-            }
-        });
-        courseAllMiniId.setText("ID");
-        courseAllMiniId.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
-                        cellData -> new SimpleIntegerProperty(cellData.getValue().getMiniature().getId()));
-        courseAllMiniName.setText("Name");
-        courseAllMiniName.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, String>, ObservableValue<String>>)
-                        cellData -> new SimpleStringProperty(cellData.getValue().getMiniature().getName()));
-        courseAllMiniCount.setText("Count");
-
-        courseAllMiniCount.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        courseAllMiniCount.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Spinner count = new Spinner();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0));
-                count.valueProperty().addListener((obs, oldValue, newValue) -> {
-                    miniature.setCount((Integer) newValue);
-                });
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-
-                setGraphic(count);
-
-            }
-        });
-
-        courseAllMiniTable.getColumns().addAll(
-          courseAllMiniAdd, courseAllMiniCount, courseAllMiniId, courseAllMiniName
-        );
-
-        courseMiniRemove = new TableColumn<>();
-        courseMiniRemove.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-
-        courseMiniRemove.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Button removeButton = new Button("Remove");
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-
-                setGraphic(removeButton);
-                removeButton.setOnAction(event -> {
-                    activeCourse.getCourseSet().removeMiniature(miniature);
-                    updateTable();
-                });
-            }
-        });
-
-        courseMiniPer.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Spinner count = new Spinner();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-                count.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(miniature.getCount(),100,0));
-                count.valueProperty().addListener((obs, oldValue, newValue) -> {
-                    miniature.setCount((Integer) newValue);
-                });
-                setGraphic(count);
-
-            }
-        });
-
-        courseMiniTable.getColumns().add(courseMiniRemove);
-
-        courseAllMiniLabel.setMaxHeight(1000);
-        courseAllMiniTable.setMaxHeight(1000);
-
-        detailsGrid.add( courseAllMiniLabel, 0,11,2,1);
-        detailsGrid.add( courseAllMiniTable, 0,12,2,1);
-    }
-
-    private void removeAllMiniaturesTable(){
-
-        courseMiniPer.setCellValueFactory(
-                param -> new ReadOnlyObjectWrapper<>(param.getValue())
-        );
-        courseMiniPer.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
-            private final Label count = new Label();
-
-            @Override
-            protected void updateItem(NeededMiniature miniature, boolean empty) {
-                super.updateItem(miniature, empty);
-                if (miniature == null) {
-                    setGraphic(null);
-                    return;
-                }
-                count.setText(String.valueOf(miniature.getCount()));
-                setGraphic(count);
-            }
-        });
-
-        courseMiniTable.getColumns().remove(courseMiniRemove);
-        courseMiniTable.setVisible(false);
-        courseAllMiniTable.setVisible(false);
-        courseAllMiniLabel.setMaxHeight(0);
-        courseAllMiniTable.setMaxHeight(0);
-    }
-
-    private void updateTable() {
-        if(activeCourse.getCourseSet().getNeededMiniatures().size() == 0) {
-            courseMiniTable.setItems(Inventory.getEmptySet().getNeededMiniatures());
-        } else {
-            courseMiniTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
-        }
-        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
-        courseMiniTable.refresh();
-    }
-
-
     private void cancelCourse() {
         if(!courseId.getText().isEmpty()) {
             courseMiniTable.setItems(CourseDAO.get(activeCourse.getId()).getCourseSet().getNeededMiniatures());
@@ -379,7 +387,9 @@ public class CourseController {
 
     }
 
-    private void clearDetails() {
+    private void deleteCourse() {
+        Inventory.deleteCourse(activeCourse);
+        CourseDAO.delete(activeCourse);
         detailsGrid.getChildren().clear();
     }
 
@@ -387,9 +397,39 @@ public class CourseController {
         enableEdit();
     }
 
-    private void deleteCourse() {
-        Inventory.deleteCourse(activeCourse);
-        CourseDAO.delete(activeCourse);
+// INPUT VALIDATION METHODS
+
+    private void fillCourseFields() {
+
+        courseName.setText(activeCourse.getName());
+        courseId.setText(String.valueOf(activeCourse.getId()));
+        courseLocation.setValue(LocationDAO.get(activeCourse.getLocationId()));
+        courseEmployee.setValue(EmployeeDAO.get(activeCourse.getManagingEmployeeId()));
+
+        courseDate.setValue(activeCourse.getStartTime().toLocalDate());
+
+        int hour = activeCourse.getStartTime().getHour();
+        if (hour > 12){
+            hour -= 12;
+            courseTimeAP.getValueFactory().setValue(AP.get(1));
+        }
+        int minute = activeCourse.getStartTime().getMinute();
+        courseTimeHours.getValueFactory().setValue(hour);
+        courseTimeMinutes.getValueFactory().setValue(minute);
+        courseAttendees.getValueFactory().setValue(activeCourse.getNumberOfAttendees());
+        courseWholeSale.setText(String.valueOf(activeCourse.getCourseSet().getWholesalePrice()));
+        courseRetail.setText(String.valueOf(activeCourse.getCourseSet().getRetailMarkup()));
+
+    }
+
+    private boolean checkAllFields() {
+        return  checkValidText(courseName) &&
+                checkValidDecimal(courseRetail);
+    }
+
+// PANE EDIT METHODS
+
+    private void clearDetails() {
         detailsGrid.getChildren().clear();
     }
 
@@ -464,6 +504,7 @@ public class CourseController {
         courseTimeAP.setDisable(false);
 
         courseId.setDisable(true);
+        courseWholeSale.setDisable(true);
     }
 
 }

@@ -147,9 +147,9 @@ public class DBTable {
 
     public static void insertBusinessData() {
 
-        String locationFileName = "src/main/resources/businessData/location_data.csv";
-        String employeeFileName = "src/main/resources/businessData/employee_data.csv";
-        String userFileName = "src/main/resources/businessData/user_data.csv";
+        String locationFileName = "src/main/resources/com/example/miniaturemanagement/businessData/location_data.csv";
+        String employeeFileName = "src/main/resources/com/example/miniaturemanagement/businessData/employee_data.csv";
+        String userFileName = "src/main/resources/com/example/miniaturemanagement/businessData/user_data.csv";
 
         ArrayList<String[]> locationArray = CSVParser.parseCSV(locationFileName);
         ArrayList<String[]> employeeArray = CSVParser.parseCSV(employeeFileName);
@@ -170,11 +170,11 @@ public class DBTable {
     }
 
     public static void insertCurrentInventory() {
-        String miniatureFileName = "src/main/resources/businessData/currentInventory/miniature_data.csv";
-        String officialSetFileName = "src/main/resources/businessData/currentInventory/officialSet_data.csv";
-        String customSetFileName = "src/main/resources/businessData/currentInventory/customSet_data.csv";
-        String courseFileName = "src/main/resources/businessData/currentCourses/course_data.csv";
-        String courseSetFileName = "src/main/resources/businessData/currentCourses/courseSet_data.csv";
+        String miniatureFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentInventory/miniature_data.csv";
+        String officialSetFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentInventory/officialSet_data.csv";
+        String customSetFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentInventory/customSet_data.csv";
+        String courseFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentCourses/course_data.csv";
+        String courseSetFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentCourses/courseSet_data.csv";
 
         ArrayList<String[]> miniatureArray = CSVParser.parseCSV(miniatureFileName);
         ArrayList<String[]> officialSetArray = CSVParser.parseCSV(officialSetFileName);

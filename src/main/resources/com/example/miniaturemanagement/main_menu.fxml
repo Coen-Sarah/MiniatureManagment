@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.MainController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="600.0">
          <children>
@@ -50,14 +50,14 @@
             </Button>
          </children>
       </HBox>
-      <TabPane prefHeight="590.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="652.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Overview">
+            <Tab text="Overview">
             <content>
                   <GridPane hgap="10.0" vgap="10.0">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.7999633789062" minWidth="10.0" prefWidth="237.60003662109375" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.1999633789062" minWidth="10.0" prefWidth="463.1999633789062" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="33.0" prefWidth="237.60003662109375" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="463.1999633789062" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" percentHeight="12.0" vgrow="SOMETIMES" />
@@ -87,7 +87,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="lowStockReport" mnemonicParsing="false" text="Save Low Stock Report">
+                              <Button fx:id="lowStockReport" mnemonicParsing="false" onAction="#generateLowStockReport" text="Save Low Stock Report">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -104,7 +104,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
-                              <Button fx:id="overStockReport" mnemonicParsing="false" text="Save Over Stock Report">
+                              <Button fx:id="overStockReport" mnemonicParsing="false" onAction="#generateOverStockReport" text="Save Over Stock Report">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -142,194 +142,177 @@
                   </GridPane>
             </content>
           </Tab>
-          <Tab text="Miniature Inventory">
+            <Tab text="Miniature Inventory">
             <content>
-                  <HBox fx:id="miniTab">
+                  <GridPane hgap="10.0" prefHeight="522.0" prefWidth="958.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="45.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <AnchorPane minWidth="300.0" prefHeight="509.0" prefWidth="325.0">
+                        <HBox alignment="CENTER_LEFT">
                            <children>
-                              <VBox prefHeight="300.0" prefWidth="408.0" AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Button fx:id="miniAddNew" mnemonicParsing="false" onAction="#showNewMini" text="Add New">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Label text="Search: ">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="miniatureSearch" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                       </children>
-                                    </HBox>
-                                    <TableView fx:id="miniatureTable" prefHeight="444.0" prefWidth="315.0" VBox.vgrow="ALWAYS">
-                                       <columns>
-                                          <TableColumn fx:id="miniId" maxWidth="-Infinity" minWidth="35.0" prefWidth="44.79998779296875" text="ID" />
-                                          <TableColumn fx:id="miniName" maxWidth="-Infinity" minWidth="125.0" prefWidth="133.59998321533203" text="Miniature Name" />
-                                          <TableColumn fx:id="miniBrand" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Brand" />
-                                          <TableColumn fx:id="miniStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="80.79998779296875" text="Stock" />
-                                       </columns>
-                                    </TableView>
-                                 </children>
-                              </VBox>
+                              <Button fx:id="miniAddNew" mnemonicParsing="false" onAction="#showNewMini" text="Add New">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label text="Search: ">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="miniatureSearch" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </TextField>
                            </children>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </AnchorPane>
-                        <ScrollPane fx:id="miniDetails" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ScrollPane>
+                        </HBox>
+                        <TableView fx:id="miniatureTable" prefHeight="529.0" prefWidth="412.0" GridPane.rowIndex="1">
+                           <columns>
+                              <TableColumn fx:id="miniId" maxWidth="-Infinity" minWidth="35.0" prefWidth="44.79998779296875" text="ID" />
+                              <TableColumn fx:id="miniName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="200.0" text="Miniature Name" />
+                              <TableColumn fx:id="miniBrand" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Brand" />
+                              <TableColumn fx:id="miniStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="80.79998779296875" text="Stock" />
+                           </columns>
+                        </TableView>
+                        <ScrollPane fx:id="miniDetails" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="292.0" GridPane.columnIndex="1" GridPane.rowSpan="2" />
                      </children>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </GridPane>
             </content>
           </Tab>
             <Tab fx:id="setTab" text="Miniature Set Inventory">
                <content>
-                  <HBox>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="45.0" prefWidth="413.3999755859375" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="486.2000244140624" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <AnchorPane minWidth="300.0">
-                           <children>
-                              <VBox AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefWidth="200.0">
-                                       <children>
-                                          <MenuButton mnemonicParsing="false" text="Add New">
-                                            <items>
-                                              <MenuItem fx:id="officialSetAddNew" mnemonicParsing="false" onAction="#showNewCustomSet" text="Custom Set" />
-                                              <MenuItem fx:id="customSetAddNew" mnemonicParsing="false" onAction="#showNewOfficialSet" text="Official Set" />
-                                            </items>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </MenuButton>
-                                          <Label text="Search: ">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="setSearch" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                       </children>
-                                    </HBox>
-                                    <TableView fx:id="setTable" prefHeight="444.0" prefWidth="310.0" VBox.vgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn fx:id="setId" maxWidth="-Infinity" minWidth="35.0" prefWidth="50.39996337890625" text="ID" />
-                                        <TableColumn fx:id="setName" maxWidth="-Infinity" minWidth="125.0" prefWidth="108.00003814697266" text="Set Name" />
-                                          <TableColumn fx:id="setType" maxWidth="-Infinity" minWidth="75.0" prefWidth="78.39998168945311" text="Set Type" />
-                                          <TableColumn fx:id="setStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="48.79998779296875" text="Stock" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </VBox>
-                           </children>
+                        <TableView fx:id="setTable" prefHeight="514.0" prefWidth="14.0" GridPane.rowIndex="1">
+                          <columns>
+                            <TableColumn fx:id="setId" maxWidth="-Infinity" minWidth="35.0" prefWidth="50.39996337890625" text="ID" />
+                            <TableColumn fx:id="setName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="200.0" text="Set Name" />
+                              <TableColumn fx:id="setType" maxWidth="-Infinity" minWidth="75.0" prefWidth="78.39998168945311" text="Set Type" />
+                              <TableColumn fx:id="setStock" maxWidth="-Infinity" minWidth="75.0" prefWidth="48.79998779296875" text="Stock" />
+                          </columns>
+                        </TableView>
+                        <ScrollPane fx:id="setDetails" GridPane.columnIndex="1" GridPane.rowSpan="2">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </AnchorPane>
-                        <ScrollPane fx:id="setDetails" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
                         </ScrollPane>
+                        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                           <children>
+                              <MenuButton mnemonicParsing="false" text="Add New">
+                                <items>
+                                  <MenuItem fx:id="officialSetAddNew" mnemonicParsing="false" onAction="#showNewCustomSet" text="Custom Set" />
+                                  <MenuItem fx:id="customSetAddNew" mnemonicParsing="false" onAction="#showNewOfficialSet" text="Official Set" />
+                                </items>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </MenuButton>
+                              <Label text="Search: ">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="setSearch" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </GridPane>
                </content>
             </Tab>
-            <Tab fx:id="courseTab" text="Miniature Painting Classess">
+            <Tab fx:id="courseTab" text="Miniature Painting Classes">
                <content>
-                  <HBox prefHeight="505.0" prefWidth="700.0">
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="45.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <AnchorPane>
+                        <HBox alignment="CENTER_LEFT">
                            <children>
-                              <VBox AnchorPane.bottomAnchor="17.600000000000023" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.1999999999999886" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Button fx:id="courseAddNew" mnemonicParsing="false" onAction="#showNewCourse" text="Add New">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Label text="Search: ">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="courseSearch" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                       </children>
-                                    </HBox>
-                                    <TableView fx:id="courseTable" prefHeight="444.0" prefWidth="334.0" VBox.vgrow="ALWAYS">
-                                       <columns>
-                                          <TableColumn fx:id="courseId" maxWidth="-Infinity" minWidth="35.0" prefWidth="34.39999294281006" text="ID" />
-                                          <TableColumn fx:id="courseName" maxWidth="-Infinity" minWidth="125.0" prefWidth="114.39999771118164" text="Class Name" />
-                                          <TableColumn fx:id="courseLocation" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Location" />
-                                          <TableColumn fx:id="courseDate" maxWidth="79.19999694824219" minWidth="68.80000305175781" prefWidth="79.19999694824219" text="Date" />
-                                       </columns>
-                                    </TableView>
-                                 </children>
-                              </VBox>
+                              <Button fx:id="courseAddNew" mnemonicParsing="false" onAction="#showNewCourse" text="Add New">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label text="Search: ">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="courseSearch" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </TextField>
                            </children>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </AnchorPane>
-                        <ScrollPane fx:id="courseDetails" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ScrollPane>
+                        </HBox>
+                        <TableView fx:id="courseTable" prefHeight="444.0" prefWidth="334.0" GridPane.rowIndex="1">
+                           <columns>
+                              <TableColumn fx:id="courseId" maxWidth="-Infinity" minWidth="35.0" prefWidth="34.39999294281006" text="ID" />
+                              <TableColumn fx:id="courseName" maxWidth="1.7976931348623157E308" minWidth="125.0" prefWidth="200.0" text="Class Name" />
+                              <TableColumn fx:id="courseLocation" maxWidth="-Infinity" minWidth="75.0" prefWidth="75.20001220703125" text="Location" />
+                              <TableColumn fx:id="courseDate" maxWidth="79.19999694824219" minWidth="68.80000305175781" prefWidth="79.19999694824219" text="Date" />
+                           </columns>
+                        </TableView>
+                        <ScrollPane fx:id="courseDetails" GridPane.columnIndex="1" GridPane.rowSpan="2" />
                      </children>
-                  </HBox>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </GridPane>
                </content>
             </Tab>
         </tabs>

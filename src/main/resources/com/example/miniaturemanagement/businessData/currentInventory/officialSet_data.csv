@@ -1,4 +1,4 @@
 id,name,brand,supplier,wholesalePrice,retailMarkup,currentStock,lowStockAmount,overStockAmount
-1,The Journey Beings: Complete Adventuring Party,Sword Witches Publishing,Indie Co.,49.99,0.25,3,1,7
-2,All-Terrain Troubles: The Complete Set,Landmark Miniatures,Landmark Miniatures,145.99,0.2,1,1,5
-3,Devils and Dares: Monstrous Minis,Wizard's Cauldron Games,Magic Maker INC,29.99,0.3,14,3,10
+1,The Journey Beings: Complete Adventuring Party,Sword Witches Publishing,Indie Co.,49.99,0.25,3,10,20
+2,All-Terrain Troubles: The Complete Set,Landmark Miniatures,Landmark Miniatures,145.99,0.2,4,5,10
+3,Devils and Dares: Monstrous Minis,Wizard's Cauldron Games,Magic Maker INC,29.99,0.3,14,15,25

@@ -1,5 +1,7 @@
 package com.example.miniaturemanagement.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.time.LocalDateTime;
 
 public class Course {
@@ -110,5 +112,27 @@ public class Course {
 
     public void setCourseSet(CustomSet courseSet) {
         this.courseSet = courseSet;
+    }
+
+    public boolean isCourseSetUnderstockedStocked(){
+        for(NeededMiniature miniature : courseSet.getNeededMiniatures()){
+            if(isItemUnderStocked(miniature) == -1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int isItemUnderStocked(NeededMiniature neededMiniature){
+        int flag = 0;
+        int totalNeeded = neededMiniature.getCount() * this.getNumberOfAttendees();
+        if(totalNeeded >= neededMiniature.getMiniature().getCurrentStock()) {
+            flag = -1;
+        } else if ( totalNeeded >= (neededMiniature.getMiniature().getCurrentStock() - 5)) {
+            flag = 0;
+        } else {
+            flag = 1;
+        }
+        return flag;
     }
 }

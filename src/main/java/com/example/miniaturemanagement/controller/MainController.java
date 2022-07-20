@@ -24,7 +24,6 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -32,7 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import org.apache.commons.csv.*;
+import static com.example.miniaturemanagement.util.CSVParser.*;
+
 
 public class MainController {
 
@@ -87,8 +87,7 @@ public class MainController {
     }
 
     public void initialize() {
-        //TODO RESET LOGIN PAGE
-        //initializeHeader();
+        initializeHeader();
         emptyMiniature = new Miniature();
         emptyMiniature.setName("No Miniatures Added");
         Inventory.setInventory();
@@ -161,84 +160,71 @@ public class MainController {
         upcomingCoursesAlert.setText(alertText[0]);
     }
 
-    //TODO ADD FUNCTIONALITY
     public void generateLowStockReport(ActionEvent event){
         System.out.println("---- Low Mini ------");
-        try {
-        FileWriter writer = new FileWriter("reports/Low Stock Report.csv");
-        CSVPrinter printer = new CSVPrinter(writer,  CSVFormat.EXCEL);
-        printer.printRecord("item type","id", "item name", "current stock", "low stock amount");
+        String fileName = "src/Reports/Low Stock Report.csv";
+
+        startCSVWriter(fileName);
+        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
+                "Low Stock Report"});
+        writeLine(new String[]{"Item Type", "Id", "Item Name", "Current Stock", "Low Stock Amount"});
         Inventory.getLowStockMiniatures().forEach(
                 new Consumer<Miniature>(){
                     @Override
                     public void accept(Miniature miniature) {
-                        try {
-                                printer.printRecord(
-                                        "Miniature", miniature.getId(), miniature.getName(),
-                                        miniature.getCurrentStock(), miniature.getLowStockAmount());
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }}}
+                        writeLine( new String[]{
+                                "Miniature", String.valueOf(miniature.getId()),
+                                miniature.getName(),
+                                String.valueOf(miniature.getCurrentStock()),
+                                String.valueOf(miniature.getLowStockAmount())});
+                        }}
                     );
 
-        System.out.println("---- Low Sets ------");
         Inventory.getLowStockSets().forEach(
                 new Consumer<MiniatureSet>(){
                     @Override
                     public void accept(MiniatureSet set) {
-                        try {
-                            printer.printRecord(
-                                    "Set", set.getId(), set.getName(),
-                                    set.getCurrentStock(), set.getLowStockAmount());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            writeLine( new String[]{
+                                    "Set", String.valueOf(set.getId()), set.getName(),
+                                    String.valueOf(set.getCurrentStock()),
+                                    String.valueOf(set.getLowStockAmount())});
                     }
                 });
 
-        writer.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        closeCSV();
     }
 
-    //TODO ADD FUNCTIONALITY
     public void generateOverStockReport(ActionEvent event){
-        try {
-            FileWriter writer = new FileWriter("reports/Overstock Report.csv");
-            CSVPrinter printer = new CSVPrinter(writer,  CSVFormat.EXCEL);
-            printer.printRecord("item type","id", "item name", "current stock", "low stock amount");
-            Inventory.getLowStockMiniatures().forEach(
-                    new Consumer<Miniature>(){
-                        @Override
-                        public void accept(Miniature miniature) {
-                            try {
-                                printer.printRecord(
-                                        "Miniature", miniature.getId(), miniature.getName(),
-                                        miniature.getCurrentStock(), miniature.getLowStockAmount());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }}}
-            );
+        String fileName = "src/Reports/Over Stock Report.csv";
 
-            System.out.println("---- Low Sets ------");
-            Inventory.getLowStockSets().forEach(
-                    new Consumer<MiniatureSet>(){
-                        @Override
-                        public void accept(MiniatureSet set) {
-                            try {
-                                printer.printRecord(
-                                        "Set", set.getId(), set.getName(),
-                                        set.getCurrentStock(), set.getLowStockAmount());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-            writer.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        startCSVWriter(fileName);
+        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
+                "Over Stock Report"});
+        writeLine(new String[]{"Item Type", "Id", "Item Name", "Current Stock", "Over Stock Amount"});
+        Inventory.getOverStockMiniatures().forEach(
+                new Consumer<Miniature>(){
+                    @Override
+                    public void accept(Miniature miniature) {
+                        writeLine( new String[]{
+                                "Miniature", String.valueOf(miniature.getId()),
+                                miniature.getName(),
+                                String.valueOf(miniature.getCurrentStock()),
+                                String.valueOf(miniature.getLowStockAmount())});
+                    }}
+        );
+
+        Inventory.getOverStockSets().forEach(
+                new Consumer<MiniatureSet>(){
+                    @Override
+                    public void accept(MiniatureSet set) {
+                        writeLine( new String[]{
+                                "Set", String.valueOf(set.getId()), set.getName(),
+                                String.valueOf(set.getCurrentStock()),
+                                String.valueOf(set.getLowStockAmount())});
+                    }
+                });
+
+        closeCSV();
     }
 
     private void addClassReportContent() {
@@ -334,6 +320,7 @@ public class MainController {
 
         try {
             GridPane miniDetailPane = FXMLLoader.load(this.getClass().getResource("/com/example/miniaturemanagement/miniDetails.fxml"));
+            miniDetailPane.setMaxWidth(miniDetails.getWidth());
             miniDetails.setContent(miniDetailPane);
             if(!isNewMini){
                 activeMiniature = null;
@@ -432,6 +419,7 @@ public class MainController {
         String officialSetPath = "/com/example/miniaturemanagement/officialSetDetails.fxml";
         try {
             GridPane setDetailPane = FXMLLoader.load(this.getClass().getResource(officialSetPath));
+            setDetailPane.setMaxWidth(setDetails.getWidth());
             setDetails.setContent(setDetailPane);
             if(!isNewSet){
                 activeSet = null;
@@ -448,12 +436,11 @@ public class MainController {
         String customSetView = "/com/example/miniaturemanagement/customSetDetailsView.fxml";
         try {
             GridPane setDetailPane;
-            if(!isNewSet){
-                setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetView));
-            } else {
+            if(isNewSet){
                 activeMiniature = null;
-                setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetView));
             }
+            setDetailPane =  FXMLLoader.load(this.getClass().getResource(customSetView));
+            setDetailPane.setMaxWidth(setDetails.getWidth()-10);
             setDetails.setContent(setDetailPane);
 
         } catch (IOException e){
@@ -554,6 +541,7 @@ public class MainController {
                 activeMiniature = null;
             }
             courseDetailPane =  FXMLLoader.load(this.getClass().getResource(course));
+            courseDetailPane.setMaxWidth(courseDetails.getWidth()-10);
             courseDetails.setContent(courseDetailPane);
 
 

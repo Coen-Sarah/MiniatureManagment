@@ -15,28 +15,28 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="detailsGrid" prefHeight="500.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.course.CourseController">
+<GridPane fx:id="detailsGrid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniaturemanagement.controller.course.CourseController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.39996337890625" minWidth="10.0" prefWidth="167.5999755859375" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="181.20000610351565" minWidth="10.0" prefWidth="170.00002441406252" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="0.0" minWidth="10.0" percentWidth="45.0" prefWidth="0.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="0.0" minWidth="10.0" percentWidth="55.0" prefWidth="0.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="212.8" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="27.199993896484372" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="26.399977874755866" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="40.79997406005859" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="37.60000610351561" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="36.00000305175783" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="10.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="6.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="30.0" minHeight="30.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="50.0" minHeight="30.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="150.0" minHeight="30.0" prefHeight="150.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="5.0" minHeight="0.0" percentHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="5.0" minHeight="0.0" percentHeight="0.0" prefHeight="150.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
       <Label text="Class Details" GridPane.rowIndex="1">
@@ -55,11 +55,7 @@
       <TextField fx:id="courseId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <TextField fx:id="courseRetail" GridPane.columnIndex="1" GridPane.rowIndex="14" />
       <TextField fx:id="courseWholeSale" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-      <HBox alignment="CENTER_LEFT" focusTraversable="true" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <children>
-            <ComboBox fx:id="courseLocation" prefHeight="26.0" prefWidth="207.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
+      <ComboBox fx:id="courseLocation" prefHeight="26.0" prefWidth="207.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Label text="Attendee Count" GridPane.rowIndex="8" />
       <Label text="Date" GridPane.rowIndex="6" />
       <Label text="Managing Employee" GridPane.rowIndex="5" />
@@ -69,9 +65,9 @@
       <TableView fx:id="courseMiniTable" prefHeight="82.0" prefWidth="305.0" GridPane.columnSpan="2" GridPane.rowIndex="10">
          <columns>
             <TableColumn fx:id="courseMiniId" prefWidth="41.599913597106934" text="ID" />
+            <TableColumn fx:id="courseMiniPer" prefWidth="80.00006103515625" text="Per&#10;Person" />
+            <TableColumn fx:id="courseMiniTotal" prefWidth="84.00007629394531" text="Total&#10;Count" />
             <TableColumn fx:id="courseMiniName" prefWidth="135.1999740600586" text="Name" />
-            <TableColumn fx:id="courseMiniPer" prefWidth="80.00006103515625" text="Per Person" />
-            <TableColumn fx:id="courseMiniTotal" prefWidth="84.00007629394531" text="Total Count" />
          </columns>
       </TableView>
       <Label text="Included Miniatures" GridPane.rowIndex="9" />
@@ -90,6 +86,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
 </GridPane>

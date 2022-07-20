@@ -6,16 +6,19 @@ import com.example.miniaturemanagement.doa.model.LocationDAO;
 import com.example.miniaturemanagement.model.Course;
 import com.example.miniaturemanagement.model.NeededMiniature;
 import com.example.miniaturemanagement.model.businessInfo.Location;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.kordamp.ikonli.javafx.*;
+import org.kordamp.ikonli.feather.FeatherIkonHandler;
 
 import java.time.format.DateTimeFormatter;
+
+import static org.kordamp.ikonli.feather.Feather.ALERT_OCTAGON;
 
 public class CourseStockReportController {
 
@@ -26,21 +29,25 @@ public class CourseStockReportController {
     public Label courseEmployee;
     public Label courseAttendees;
     public TableView reportStockTable;
-    public TableColumn reportStockFlag;
+    public TableColumn<NeededMiniature, NeededMiniature> reportStockFlag;
     public TableColumn reportStockId;
     public TableColumn reportStockName;
     public TableColumn reportStockCurrent;
     public TableColumn reportStockNeeded;
     public TableColumn reportStockCount;
 
-    private boolean hasInsufficientStock;
     private Course activeCourse;
 
     public void initialize(){
         activeCourse = MainController.getReportCourse();
+        FeatherIkonHandler iconHandler = new FeatherIkonHandler();
+        FontIcon hasStock = FontIcon.of(ALERT_OCTAGON);
+        if(activeCourse.isCourseSetUnderstockedStocked()) {
+            classReportItem.setGraphic(hasStock);
+        }
         initializeTable();
         Location location = LocationDAO.get(activeCourse.getLocationId());
-        classReportItem.setText(activeCourse.getName() + " " + hasInsufficientStock);
+        classReportItem.setText(activeCourse.getName());
         courseLocation.setText(location.getName() + "\n" + location.getAddress() );
         courseEmployee.setText("Managing Employee: " + EmployeeDAO.get(activeCourse.getManagingEmployeeId()).getName());
         courseDate.setText( activeCourse.getStartTime().format(DateTimeFormatter.ofPattern("MMMM dd")) + " at " +
@@ -51,23 +58,28 @@ public class CourseStockReportController {
     private void initializeTable() {
 
         reportStockTable.setItems(activeCourse.getCourseSet().getNeededMiniatures());
+
         reportStockFlag.setCellValueFactory(
-                (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)
-                        cellData -> {
-                    NeededMiniature neededMiniature = cellData.getValue();
-                    int flag = 0;
-                    int totalNeeded = neededMiniature.getCount() * activeCourse.getNumberOfAttendees();
-                    if(totalNeeded >= neededMiniature.getMiniature().getCurrentStock()) {
-                        hasInsufficientStock = false;
-                        flag = -1;
-                    } else if ( totalNeeded >= (neededMiniature.getMiniature().getCurrentStock() - 5)) {
-                        flag = 0;
-                    } else {
-                        flag = 1;
-                    }
-                    new SimpleIntegerProperty(cellData.getValue().getMiniature().getId());
-                    return new SimpleIntegerProperty(flag);
-                });
+                param -> new ReadOnlyObjectWrapper<>(param.getValue())
+        );
+
+        reportStockFlag.setCellFactory(param -> new TableCell<NeededMiniature, NeededMiniature>() {
+            private final FontIcon icon = FontIcon.of(ALERT_OCTAGON);
+
+            @Override
+            protected void updateItem(NeededMiniature miniature, boolean empty) {
+                super.updateItem(miniature, empty);
+
+                if (miniature == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                if(activeCourse.isItemUnderStocked(miniature) == -1) {
+                    setGraphic(icon);
+                }
+            }
+        });
 
         reportStockId.setCellValueFactory(
                 (Callback<TableColumn.CellDataFeatures<NeededMiniature, Number>, ObservableValue<Number>>)

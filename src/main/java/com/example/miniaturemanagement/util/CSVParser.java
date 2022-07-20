@@ -1,11 +1,11 @@
 package com.example.miniaturemanagement.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class CSVParser {
+
+    static PrintWriter writer;
 
     public static ArrayList<String[]> parseCSV(String fileName){
         ArrayList<String[]> CSVRows = new ArrayList<String[]>();
@@ -24,6 +24,27 @@ public class CSVParser {
             e.printStackTrace();
         }
         return CSVRows;
+    }
+
+    public static void startCSVWriter(String fileName){
+        try {
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeLine(String[] items){
+        String contents = "";
+        for(int i = 0; i < items.length - 1; i++){
+            contents += items[i] + ",";
+        }
+        contents += items[items.length-1];
+        writer.println(contents);
+    }
+
+    public static void closeCSV(){
+        writer.close();
     }
 
 }

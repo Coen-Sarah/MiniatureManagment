@@ -212,4 +212,14 @@ public class Inventory {
         return empty;
     }
 
+    public static ObservableList<NeededMiniature> getRemainingMiniatures(CustomSet set){
+        ObservableList<NeededMiniature> all = getAllNeededMiniatures();
+
+        for( NeededMiniature miniature : set.getNeededMiniatures()){
+            all.removeIf(remaining -> remaining.getMiniature().getId() ==
+                    miniature.getMiniature().getId());
+        }
+        return all;
+    }
+
 }
