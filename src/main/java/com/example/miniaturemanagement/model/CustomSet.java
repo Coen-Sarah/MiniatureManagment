@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import java.math.BigDecimal;
 
 public class CustomSet extends MiniatureSet{
-    final String ID_SUFFIX = "SC";
+
     ObservableList<NeededMiniature> neededMiniatures = FXCollections.observableArrayList();
 
     public CustomSet() {}

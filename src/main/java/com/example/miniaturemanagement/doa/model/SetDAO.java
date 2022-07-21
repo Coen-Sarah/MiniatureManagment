@@ -31,9 +31,6 @@ public class SetDAO {
     public static final String MINIATURE_ID = "MiniatureId";
     public static final String COUNT = "Count";
 
-    public static final String COURSE_SET_TABLE = "CourseSetLink";
-    public static final String COURSE_ID = "CourseID";
-
     static final int OFFICIAL_SET = 1;
     static final int NOT_OFFICIAL_SET = 0;
 

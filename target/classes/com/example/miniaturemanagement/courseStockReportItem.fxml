@@ -25,12 +25,12 @@
          <children>
             <TableView fx:id="reportStockTable" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
               <columns>
-                  <TableColumn fx:id="reportStockFlag" prefWidth="28.00000113248825" />
-                <TableColumn fx:id="reportStockId" prefWidth="59.9999942779541" text="ID" />
-                <TableColumn fx:id="reportStockName" maxWidth="200.0" prefWidth="124.79999542236328" text="Miniature Name" />
-                  <TableColumn fx:id="reportStockCurrent" maxWidth="125.59999084472656" prefWidth="84.80000305175781" text="Current&#10;Stock" />
-                  <TableColumn fx:id="reportStockNeeded" maxWidth="116.0" prefWidth="71.2000732421875" text="Needed&#10;Stock" />
-                  <TableColumn fx:id="reportStockCount" maxWidth="110.40008544921875" prefWidth="79.199951171875" text="Count&#10;(Per Person)" />
+                  <TableColumn fx:id="reportStockFlag" maxWidth="50.0" minWidth="50.0" prefWidth="28.00000113248825" />
+                <TableColumn fx:id="reportStockId" maxWidth="75.0" minWidth="50.0" prefWidth="59.9999942779541" text="ID" />
+                <TableColumn fx:id="reportStockName" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Miniature Name" />
+                  <TableColumn fx:id="reportStockCurrent" maxWidth="75.0" minWidth="60.0" prefWidth="76.80006408691406" text="Current&#10;Stock" />
+                  <TableColumn fx:id="reportStockNeeded" maxWidth="75.0" minWidth="60.0" prefWidth="60.0" text="Needed&#10;Stock" />
+                  <TableColumn fx:id="reportStockCount" maxWidth="75.0" minWidth="60.0" prefWidth="79.99993896484375" text="Count&#10;(Per Person)" />
               </columns>
             </TableView>
             <Label fx:id="courseAttendees" prefHeight="43.0" prefWidth="345.0" text="Label" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />

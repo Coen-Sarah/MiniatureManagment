@@ -7,7 +7,7 @@ public class CSVParser {
 
     static PrintWriter writer;
 
-    public static ArrayList<String[]> parseCSV(String fileName){
+    public static ArrayList<String[]> readCSV(String fileName){
         ArrayList<String[]> CSVRows = new ArrayList<String[]>();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -26,9 +26,11 @@ public class CSVParser {
         return CSVRows;
     }
 
-    public static void startCSVWriter(String fileName){
+    public static void startCSVWriter(String directoryName,String fileName){
         try {
-            writer = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+            File directory = new File(directoryName);
+            directory.mkdir();
+            writer = new PrintWriter(new BufferedWriter(new FileWriter(directoryName + "/" + fileName)));
         } catch (IOException e) {
             e.printStackTrace();
         }

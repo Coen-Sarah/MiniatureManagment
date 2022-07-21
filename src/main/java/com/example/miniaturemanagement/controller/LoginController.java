@@ -23,7 +23,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.example.miniaturemanagement.util.HashController.comparePassword;
+import static com.example.miniaturemanagement.util.HashEncoder.comparePassword;
 
 public class LoginController {
 

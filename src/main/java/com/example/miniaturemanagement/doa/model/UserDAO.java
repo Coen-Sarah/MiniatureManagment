@@ -30,6 +30,20 @@ public class UserDAO {
         makeQuery(createLocationQuery);
     }
 
+    public static void add(String userName, String passwordHash, String passwordSalt){
+        String createLocationQuery =
+                "INSERT INTO " + TABLE_NAME + "(" +
+                        NAME + "," +
+                        PASSWORD_HASH + "," +
+                        PASSWORD_SALT +
+                        " ) VALUES (" +
+                        "\""+ userName +
+                        "\", \""+ passwordHash +
+                        "\",\""+ passwordSalt + "\");";
+
+        makeQuery(createLocationQuery);
+    }
+
     public static String[] get(String userName){
         String getUserInfoQuery = "SELECT * FROM " + TABLE_NAME +
                 " WHERE " + NAME + " = \"" + userName + "\";";

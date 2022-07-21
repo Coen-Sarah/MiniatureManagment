@@ -26,4 +26,6 @@ module com.example.miniaturemanagement {
     opens com.example.miniaturemanagement.controller.set to javafx.fxml;
     exports com.example.miniaturemanagement.controller.course;
     opens com.example.miniaturemanagement.controller.course to javafx.fxml;
+    exports com.example.miniaturemanagement.model.businessInfo;
+    opens com.example.miniaturemanagement.model.businessInfo to javafx.fxml;
 }

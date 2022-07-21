@@ -19,7 +19,7 @@ public class DBTable {
 
     static String createUserTable =
             "CREATE TABLE IF NOT EXISTS " + UserDAO.TABLE_NAME + " (\n" +
-                    "  " + UserDAO.ID + " INT NOT NULL,\n" +
+                    "  " + UserDAO.ID + " INT NOT NULL AUTO_INCREMENT,\n" +
                     "  " + UserDAO.NAME + " VARCHAR(100) UNIQUE NULL,\n" +
                     "  " + UserDAO.PASSWORD_HASH + " VARCHAR(32) NULL,\n" +
                     "  " + UserDAO.PASSWORD_SALT + " VARCHAR(32) NULL,\n" +
@@ -27,14 +27,14 @@ public class DBTable {
 
     static String createLocationTable =
             "CREATE TABLE IF NOT EXISTS " + LocationDAO.TABLE_NAME + " (\n" +
-                    "  " + LocationDAO.ID + " INT NOT NULL,\n" +
+                    "  " + LocationDAO.ID + " INT NOT NULL AUTO_INCREMENT,\n" +
                     "  " + LocationDAO.NAME + " VARCHAR(100) NULL,\n" +
                     "  " + LocationDAO.ADDRESS + " VARCHAR(100) NULL,\n" +
                     "  PRIMARY KEY (" + LocationDAO.ID + "));" ;
 
     static String createEmployeeTable =
             " CREATE TABLE IF NOT EXISTS " + EmployeeDAO.TABLE_NAME + " (\n" +
-                    "  " + EmployeeDAO.ID + " INT NOT NULL,\n" +
+                    "  " + EmployeeDAO.ID + " INT NOT NULL AUTO_INCREMENT,\n" +
                     "  " + EmployeeDAO.LOCATION_ID + " INT NOT NULL,\n" +
                     "  " + EmployeeDAO.NAME + " VARCHAR(100) NULL,\n" +
                     "  PRIMARY KEY (" + EmployeeDAO.ID + "),\n" +
@@ -151,9 +151,9 @@ public class DBTable {
         String employeeFileName = "src/main/resources/com/example/miniaturemanagement/businessData/employee_data.csv";
         String userFileName = "src/main/resources/com/example/miniaturemanagement/businessData/user_data.csv";
 
-        ArrayList<String[]> locationArray = CSVParser.parseCSV(locationFileName);
-        ArrayList<String[]> employeeArray = CSVParser.parseCSV(employeeFileName);
-        ArrayList<String[]> userArray = CSVParser.parseCSV(userFileName);
+        ArrayList<String[]> locationArray = CSVParser.readCSV(locationFileName);
+        ArrayList<String[]> employeeArray = CSVParser.readCSV(employeeFileName);
+        ArrayList<String[]> userArray = CSVParser.readCSV(userFileName);
 
         for (String[] location: locationArray) {
             LocationDAO.add(new Location(Integer.valueOf(location[0]),location[1],location[2]));
@@ -176,12 +176,12 @@ public class DBTable {
         String courseFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentCourses/course_data.csv";
         String courseSetFileName = "src/main/resources/com/example/miniaturemanagement/businessData/currentCourses/courseSet_data.csv";
 
-        ArrayList<String[]> miniatureArray = CSVParser.parseCSV(miniatureFileName);
-        ArrayList<String[]> officialSetArray = CSVParser.parseCSV(officialSetFileName);
-        ArrayList<String[]> customSetArray = CSVParser.parseCSV(customSetFileName);
+        ArrayList<String[]> miniatureArray = CSVParser.readCSV(miniatureFileName);
+        ArrayList<String[]> officialSetArray = CSVParser.readCSV(officialSetFileName);
+        ArrayList<String[]> customSetArray = CSVParser.readCSV(customSetFileName);
 
-        ArrayList<String[]> courseArray = CSVParser.parseCSV(courseFileName);
-        ArrayList<String[]> courseSetArray = CSVParser.parseCSV(courseSetFileName);
+        ArrayList<String[]> courseArray = CSVParser.readCSV(courseFileName);
+        ArrayList<String[]> courseSetArray = CSVParser.readCSV(courseSetFileName);
 
         for (String[] miniature: miniatureArray) {
             MiniatureDAO.add(new Miniature(Integer.parseInt(miniature[0]), miniature[1], miniature[2],miniature[3],

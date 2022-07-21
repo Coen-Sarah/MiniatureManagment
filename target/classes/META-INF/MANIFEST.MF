@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Main-Class: com.example.miniaturemanagement.StartClass
+Class-Path: ikonli-javafx-12.2.0.jar ikonli-core-12.2.0.jar javafx-fxml-
+ 18-ea+2-win.jar javafx-base-18-ea+2-win.jar commons-csv-1.9.0.jar mysql
+ -connector-java-8.0.26.jar protobuf-java-3.11.4.jar formsfx-core-11.3.2
+ .jar validatorfx-0.1.13.jar controlsfx-11.1.0.jar javafx-controls-18-ea
+ +2-win.jar JavaFXEmojiTextFlow_emojitwo-1.0.jar commons-lang3-3.12.0.ja
+ r javafx-graphics-18-ea+2.jar ikonli-feather-pack-12.2.0.jar javafx-fxm
+ l-18-ea+2.jar javafx-controls-18-ea+2.jar javafx-base-18-ea+2.jar javaf
+ x-graphics-18-ea+2-win.jar bootstrapfx-core-0.4.0.jar
+

@@ -8,6 +8,11 @@ public class Employee {
 
     public Employee(){}
 
+    public Employee(int locationId, String name) {
+        this.locationId = locationId;
+        this.name = name;
+    }
+
     public Employee(int id, int locationId, String name) {
         this.id = id;
         this.locationId = locationId;

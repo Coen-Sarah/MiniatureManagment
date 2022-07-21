@@ -3,6 +3,7 @@ package com.example.miniaturemanagement.controller;
 import com.example.miniaturemanagement.doa.model.LocationDAO;
 import com.example.miniaturemanagement.model.*;
 import com.example.miniaturemanagement.model.businessInfo.Location;
+import com.example.miniaturemanagement.model.Inventory;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -162,10 +163,11 @@ public class MainController {
 
     public void generateLowStockReport(ActionEvent event){
         System.out.println("---- Low Mini ------");
-        String fileName = "src/Reports/Low Stock Report.csv";
+        String directory = System.getProperty("user.home") + "/Documents/InventoryReports";
+        String fileName = "Low Stock Report_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM-dd-yyyy_HHmm")) +".csv";
 
-        startCSVWriter(fileName);
-        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
+        startCSVWriter(directory, fileName);
+        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm")),
                 "Low Stock Report"});
         writeLine(new String[]{"Item Type", "Id", "Item Name", "Current Stock", "Low Stock Amount"});
         Inventory.getLowStockMiniatures().forEach(
@@ -195,10 +197,11 @@ public class MainController {
     }
 
     public void generateOverStockReport(ActionEvent event){
-        String fileName = "src/Reports/Over Stock Report.csv";
+        String directory = System.getProperty("user.home") + "/Documents/InventoryReports";
+        String fileName = "Over Stock Report_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HHmm")) + ".csv";
 
-        startCSVWriter(fileName);
-        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
+        startCSVWriter(directory,fileName);
+        writeLine(new String[]{LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm")),
                 "Over Stock Report"});
         writeLine(new String[]{"Item Type", "Id", "Item Name", "Current Stock", "Over Stock Amount"});
         Inventory.getOverStockMiniatures().forEach(

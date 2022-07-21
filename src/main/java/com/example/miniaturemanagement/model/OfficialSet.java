@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class OfficialSet extends MiniatureSet{
 
-    final String ID_SUFFIX = "SO";
     String brand;
     String supplier;
 

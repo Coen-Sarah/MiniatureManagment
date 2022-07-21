@@ -25,6 +25,7 @@ public class Inventory {
         allSets = SetDAO.getAll();
         allCourses = CourseDAO.getAll();
     }
+
     public static void update(){
         setInventory();
     }
@@ -68,7 +69,6 @@ public class Inventory {
         return null;
     }
 
-    //TODO CITE: https://stackoverflow.com/questions/53075175/observablelist-returns-sublist-thatFXCollections.observableArrayList()-matches
     public static ObservableList<Miniature> lookupMiniature(String miniatureName){
         FilteredList<Miniature> miniatureFilteredList = allMiniatures.filtered(miniature -> miniature.getName().toLowerCase().contains(miniatureName.toLowerCase()));
         return miniatureFilteredList;

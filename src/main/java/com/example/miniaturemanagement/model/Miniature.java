@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class Miniature {
 
-    final String ID_SUFFIX = "M";
     int id;
     String name;
     String brand;
