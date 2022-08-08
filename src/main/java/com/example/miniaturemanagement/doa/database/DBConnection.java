@@ -57,8 +57,8 @@ public class DBConnection {
 
     public static void getDatabaseInformation(){
 
-        username = readCSV(("databaseInformation.csv")).get(0)[0];
-        password = readCSV(("databaseInformation.csv")).get(0)[1];
+        username = "root";      //readCSV(("databaseInformation.csv")).get(0)[0];
+        password = "Konoha07!"; //readCSV(("databaseInformation.csv")).get(0)[1];
     }
 
 }
