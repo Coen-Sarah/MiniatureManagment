@@ -13,8 +13,6 @@ import static com.example.miniaturemanagement.util.CSVParser.readCSV;
 
 public class DBConnection {
 
-    //TODO VERIFY DBConnection WORKS ON OTHER PEOPLE'S COMPUTERS
-
     private static final String databaseName="MiniatureInventory";
     private static final String DB_URL="jdbc:mysql://localhost:3306/";
     private static String username="";
